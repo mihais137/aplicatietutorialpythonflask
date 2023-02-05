@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Login - DroWo 23{% endblock %}
+
+{% block content %}
+    <h1>Va rugam sa introduceti numele echipei si parola</h1>
+    <form method="POST">
+        <h3 align="center">Login</h3>
+        <div class="form-group">
+            <label for="numeEchipa">Nume Echipa</label>
+            <input type="text" class="form-control" id="numeEchipa" name="numeEchipa" placeholder="Introduceti numele echipei"/>
+        </div>
+        <div class="form-group">
+            <label for="parolaEchipa">Parola</label>
+            <input type="password" class="form-control" id="parolaEchipa" name="parolaEchipa" placeholder="Introduceti parola"/>
+        </div>
+        <br/>
+        <button type="submit" class="btn btn-primary">Login</button>
+        </form>
+{% endblock%}
