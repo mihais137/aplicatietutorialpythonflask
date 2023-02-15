@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Quiz{% endblock %}
+
+{% block content %}
+    
+<div class = container>
+
+<div class = intrebare>
+{{intrebare1}}
+</div>
+
+<div class = raspunsuri>
+
+    <form method="POST">
+        <br>
+        {% for option in raspunsuri1_lista %}
+          <input type="radio" name="select_option" value="{{ option }}">
+          <label>{{ option }}</label>
+          <br>
+        {% endfor %}
+        <br>
+        <button type="submit">Submit</button>
+      </form>
+
+</div>
+
+
+</div>
+
+<!-- <script>
+    $('#id_form-0-project').on('change', function() {
+    $('#status').text($(this).find('option').map(function(i, e){
+        return $(e).val() + " is " + ($(e).prop('selected') ? "" : "not ") + "selected";
+    }).get().join('; '));
+});
+</script> -->
+
+{% endblock%}

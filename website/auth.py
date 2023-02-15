@@ -14,9 +14,9 @@ def login():
 def logout():
     return "<p>Logout</p>"
 
-@auth.route('/testare', methods=['GET', 'POST'])
-def testare():
-    return render_template("testare.html")
+# @auth.route('/testare', methods=['GET', 'POST'])
+# def testare():
+#     return render_template("testare.html")
     
 @auth.route('/shop', methods=['GET', 'POST'])
 def shop():
