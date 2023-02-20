@@ -44,7 +44,7 @@ def shop():
     if request.method == "POST":
         code = request.form.get('button')
         obj = Drona.query.filter_by(code = code).first()
-        poz=Pozitie.query.all()
+        poz=Pozitie.first()
         if obj.stoc == 0:
             flash('Acest obiect nu se mai afla pe stoc', category='error')
         elif current_user.loc!=poz.pozitie:
