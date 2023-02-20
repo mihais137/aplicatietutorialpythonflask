@@ -10,13 +10,13 @@ class User(db.Model, UserMixin):
     punctaj = db.Column(db.Integer)
     config = db.Column(db.Integer)
     cart_config = db.Column(db.String(100))
-    #user=....
+    clasament=db.relationship('Clasament')
 
-    def __init__(self, username, parola, punctaj = 0, nume = 'Echipa', cart_config= '', config = '', color = '6600ff'):
+    def __init__(self, username, password, points = 0, nume = 'Echipa', cart_config= '', config = '', color = '6600ff'):
         self.username = username
-        self.parola = parola
-        self.punctaj = punctaj
-        self.nume = nume
+        self.password = password
+        self.points = points
+        self.name = nume
         self.cart_config = cart_config
         self.config = config
         self.color=color
@@ -30,6 +30,12 @@ class User(db.Model, UserMixin):
     def change_color(self, color):
         self.color = color
 
+    def add_cart_config(self, new_prod):
+        self.cart_config =  new_prod
+
+    def add_config(self, new_prod):
+        self.config =  new_prod
+
 
 
 class Drona(db.Model):
@@ -37,9 +43,17 @@ class Drona(db.Model):
     descriere = db.Column(db.String(150))
     pret = db.Column(db.Integer)
     poza = db.Column(db.String(1000))
-    def __init__(self, descriere = 'nu ai pus o descriere', pret = '99.99'):
+    
+    def __init__(self, image, name, descriere, pret, code,stoc):
+        self.pret =pret
+        self.image = image
+        self.name = name
         self.descriere = descriere
-        self.pret = pret
+        self.code = code
+        self.stoc = stoc
+
+    def change_stoc(self, stoc):
+        self.stoc = stoc
 
 class Test(db.Model):
     id = db.Column(db.Integer, primary_key=True)

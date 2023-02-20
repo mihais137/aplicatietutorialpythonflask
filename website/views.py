@@ -1,4 +1,9 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, flash, request, redirect,url_for
+from flask_login import login_required, current_user
+from . import db
+from website.models import Drona
+from website.models import Clasament
+from website.models import Pozitie
 
 views = Blueprint('views', __name__)
 
