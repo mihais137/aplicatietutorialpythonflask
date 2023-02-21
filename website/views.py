@@ -1,9 +1,11 @@
-from flask import Blueprint, render_template, flash, request, redirect,url_for
+from flask import Blueprint, render_template, flash, request, redirect,url_for, session
 from flask_login import login_required, current_user
 from . import db
 from website.models import Drona
 from website.models import Clasament
-from website.models import Pozitie
+#from website.models import Pozitie
+import random
+import datetime
 
 views = Blueprint('views', __name__)
 
@@ -115,6 +117,14 @@ def check_quiz():
 @views.route('/quiz', methods=['GET', 'POST'])
 def quiz():
 
+    target_date = datetime.datetime(2023, 3, 1, 0, 0, 0) # set the target date for the countdown timer
+    now = datetime.datetime.now() # get the current date and time
+    time_left = target_date - now # calculate the time left until the target date
+    days_left = time_left.days # get the number of days left
+    seconds_left = time_left.seconds # get the number of seconds left
+    
+    #return render_template('home.html', days_left=days_left, seconds_left=seconds_left)
+
     actual_time = 3
     quiz_time = 3
     
@@ -177,7 +187,7 @@ def quiz():
         return redirect(url_for('views.results'))
     else:
         return render_template('quiz.html', intrebare1 = intrebare1, raspunsuri1_lista = raspunsuri1_lista, intrebare2 = intrebare2,
-                               raspunsuri2_lista = raspunsuri2_lista)
+                               raspunsuri2_lista = raspunsuri2_lista, days_left=days_left, seconds_left=seconds_left)
     
 
 @views.route('/results', methods = ['GET', 'POST'])

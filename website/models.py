@@ -62,8 +62,9 @@ class Test(db.Model):
 
 class Intrebari(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    intrebare = db.Column(db.String)
     raspuns_corect = db.Column(db.String)
-    tip_test = db.Column(db.String, db.ForeignKey(Test.tip))
+    tip_test = db.Column(db.String, db.ForeignKey(Test.id))
     raspunsuri = db.relationship('Raspunsuri')
 
 class Raspunsuri(db.Model):
@@ -80,11 +81,11 @@ class Clasament(db.Model):
     username_id=db.Column(db.Integer,db.ForeignKey(User.id))
     loc=db.Column(db.Integer)
 
-class Pozitie(db.Model):
-    id=db.Column(db.Integer,priamry_key=True)
-    pozitie=db.column(db.Integer)
-poz=Pozitie.first()
-poz.pozitie=1
+# class Pozitie(db.Model):
+#     id=db.Column(db.Integer,priamry_key=True)
+#     pozitie=db.column(db.Integer)
+#     poz=Pozitie.first()
+#     poz.pozitie=1
 
 class Admin(db.Model):
     id = db.Column(db.Integer, primary_key=True)
