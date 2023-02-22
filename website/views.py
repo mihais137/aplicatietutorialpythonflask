@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, flash, request, redirect,url_for, session
 from flask_login import login_required, current_user
 from . import db
-from website.models import Drona
+from website.models import Drona, Test, Intrebari, Raspunsuri
 from website.models import Clasament
 #from website.models import Pozitie
 import random
@@ -12,7 +12,9 @@ views = Blueprint('views', __name__)
 @views.route('/')
 def home():
 
+    session.clear()
     return render_template('home.html', team = current_user)
+
 
 
 @views.route('team', methods = ['GET', 'POST'])
@@ -111,29 +113,50 @@ def check_quiz():
     actual_time = 3 #timpul / ora curenta
     quiz_time = 3 #ora la care e disponibil testul
 
+    test = Test.query.filter_by(status = 'activ').first()
+    if test:
+        tip_test = test.tip
+        #return render_template("check_quiz.html")
+    else:
+        tip_test = "null"
+        #return render_template("check_quiz.html")
 
-    return render_template("check_quiz.html", actual_time = actual_time, quiz_time = quiz_time)
+    return render_template("check_quiz.html", tip_test = tip_test)
 
 @views.route('/quiz', methods=['GET', 'POST'])
 def quiz():
 
-    target_date = datetime.datetime(2023, 3, 1, 0, 0, 0) # set the target date for the countdown timer
-    now = datetime.datetime.now() # get the current date and time
-    time_left = target_date - now # calculate the time left until the target date
-    days_left = time_left.days # get the number of days left
-    seconds_left = time_left.seconds # get the number of seconds left
+    #target_date = datetime.datetime(2023, 3, 1, 0, 0, 0) # set the target date for the countdown timer
+    target_date = datetime.datetime.now() + datetime.timedelta(minutes = 20) # get the current date and time
     
-    #return render_template('home.html', days_left=days_left, seconds_left=seconds_left)
+    #return render_template('home.html', target_date = target_date)
 
     actual_time = 3
     quiz_time = 3
     
-    if actual_time != quiz_time:
-       return redirect("/check_quiz") 
+    test = Test.query.filter_by(status = 'activ').first()
+    if not test:
+       return redirect(url_for('views.check_quiz'))
 
-    intrebari = {"Intrebarea 1?": [["rasp1", "rasp2", "rasp3"], "rasp_c"], "Intrebarea 2?": [["rasp1", "rasp2", "rasp3"], "rasp_c"], 
-                "Intrebarea 3?": [["rasp1", "rasp2", "rasp3"], "rasp_c"]} #vor fi luate din baza de date
+    #intrebari = {"Intrebarea 1?": [["rasp1", "rasp2", "rasp3"], "rasp_c"], "Intrebarea 2?": [["rasp1", "rasp2", "rasp3"], "rasp_c"], 
+                #"Intrebarea 3?": [["rasp1", "rasp2", "rasp3"], "rasp_c"]} #vor fi luate din baza de date
     
+    intrebari_nush = test.intrebari
+    intrebari_text = []
+    intrebari = {} #are de fapt si raspunsurile
+
+    raspuns = Raspunsuri.query.filter_by(id_intrebare = 1).first()
+    raspunsuri = []
+    raspunsuri.append(raspuns.raspuns1)
+    raspunsuri.append(raspuns.raspuns2)
+    raspunsuri.append(raspuns.raspuns3)
+    raspunsuri.append(raspuns.raspuns4)
+    
+    for i in intrebari_nush:
+        intrebari_text.append(i.intrebare)
+        intrebari[i.intrebare] = [raspunsuri, i.raspuns_corect]
+
+    print(intrebari)
 
     lista_intrebari = []
     if "intrebare1" not in session:
@@ -153,14 +176,14 @@ def quiz():
     raspunsuri1 = intrebari[intrebare1]
     raspuns_corect1 = raspunsuri1[1]
     raspunsuri1_lista = [item for item in raspunsuri1[0]]
-    raspunsuri1_lista.append(raspunsuri1[1])
+    #raspunsuri1_lista.append(raspunsuri1[1])
     random.shuffle(raspunsuri1_lista) #noua aditie: am randomizat lista de raspunsuri ca sa nu mai fie cel corect ultimul mereu
 
     intrebare2 = session["intrebare2"]
     raspunsuri2 = intrebari[intrebare2]
     raspuns_corect2 = raspunsuri2[1]
     raspunsuri2_lista = [item for item in raspunsuri2[0]]
-    raspunsuri2_lista.append(raspunsuri2[1])
+    #raspunsuri2_lista.append(raspunsuri2[1])
     random.shuffle(raspunsuri2_lista)
 
     # trebuie facut pentru n intrebari
@@ -187,14 +210,33 @@ def quiz():
         return redirect(url_for('views.results'))
     else:
         return render_template('quiz.html', intrebare1 = intrebare1, raspunsuri1_lista = raspunsuri1_lista, intrebare2 = intrebare2,
-                               raspunsuri2_lista = raspunsuri2_lista, days_left=days_left, seconds_left=seconds_left)
+                               raspunsuri2_lista = raspunsuri2_lista)
     
 
 @views.route('/results', methods = ['GET', 'POST'])
 def results():
 
-    intrebari = {"Intrebarea 1?": [["rasp1", "rasp2", "rasp3"], "rasp_c"], "Intrebarea 2?": [["rasp1", "rasp2", "rasp3"], "rasp_c"], 
-                "Intrebarea 3?": [["rasp1", "rasp2", "rasp3"], "rasp_c"]}
+    test = Test.query.filter_by(status = 'activ').first()
+    if not test:
+       return redirect(url_for('views.check_quiz'))
+  
+    intrebari_nush = test.intrebari
+    intrebari_text = []
+    intrebari = {} #are de fapt si raspunsurile
+
+    raspuns = Raspunsuri.query.filter_by(id_intrebare = 1).first()
+    raspunsuri = []
+    raspunsuri.append(raspuns.raspuns1)
+    raspunsuri.append(raspuns.raspuns2)
+    raspunsuri.append(raspuns.raspuns3)
+    raspunsuri.append(raspuns.raspuns4)
+    
+    for i in intrebari_nush:
+        intrebari_text.append(i.intrebare)
+        intrebari[i.intrebare] = [raspunsuri, i.raspuns_corect]
+
+    #intrebari = {"Intrebarea 1?": [["rasp1", "rasp2", "rasp3"], "rasp_c"], "Intrebarea 2?": [["rasp1", "rasp2", "rasp3"], "rasp_c"], 
+                #"Intrebarea 3?": [["rasp1", "rasp2", "rasp3"], "rasp_c"]}
     intrebare1 = session["intrebare1"]
     rasp_corect1 = intrebari[intrebare1][1]
     intrebare2 = session["intrebare2"]
@@ -204,3 +246,10 @@ def results():
 
     return render_template('results.html', punctaj = punctaj, rasp_corect1 = rasp_corect1, intrebare1 = intrebare1,
                            rasp_corect2 = rasp_corect2, intrebare2 = intrebare2)
+
+
+def get_questions(nr_intrebari):
+
+
+    pass
+    #return lista intrebari, raspunsuri

@@ -58,6 +58,8 @@ class Drona(db.Model):
 class Test(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     tip = db.Column(db.String(150))
+    status = db.Column(db.String)
+    durata = db.Column(db.Integer)
     intrebari = db.relationship('Intrebari')
 
 class Intrebari(db.Model):

@@ -7,7 +7,7 @@
 
   <div class = Timer>
 
-    <p>There are <span id ="hours"></span> hours, <span id="minutes"></span> minutes and <span id="seconds"></span> seconds left until the target date.</p>
+    <p>There are <span id="minutes"></span> minutes and <span id="seconds"></span> seconds left until the end of the quiz.</p>
   
   </div>
 
@@ -55,14 +55,12 @@
 <script>
         // function to update the countdown timer
         function updateTimer() {
-            var targetDate = new Date("March 1, 2023 00:00:00").getTime(); // set the target date for the countdown timer
+            var targetDate = new Date("{{ target_date }}").getTime(); // get the target date from the Flask route and convert it to a JavaScript date object
             var now = new Date().getTime(); // get the current date and time
-            var timeLeft = targetDate - now; // calculate the time left until the target date
-            var hoursLeft = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var timeLeft = targetDate - now; // calculate the time left until the end of the quiz
             var minutesLeft = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60)); // get the number of minutes left
             var secondsLeft = Math.floor((timeLeft % (1000 * 60)) / 1000); // get the number of seconds left
 
-            document.getElementById("hours").innerHTML = hoursLeft; // update the minutes left on the page
             document.getElementById("minutes").innerHTML = minutesLeft; // update the minutes left on the page
             document.getElementById("seconds").innerHTML = secondsLeft; // update the seconds left on the page
         }
