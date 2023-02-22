@@ -142,7 +142,6 @@ def cine_alege():
     for i in range(len(clasament)):
         user=User.query.filter_by(pozitie=i).first()
         if user.config=="":
-            poz=user.pozitie
-            return poz
+            return user.pozitie
         else:
             continue
