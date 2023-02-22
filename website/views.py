@@ -3,6 +3,7 @@ from flask_login import login_required, current_user
 from . import db
 from website.models import Drona
 from website.models import User
+from sqlalchemy import desc
 
 
 views = Blueprint('views', __name__)
@@ -129,7 +130,7 @@ def shop_cart():
 
 def cine_alege():
     
-    clasament=User.query.sort_values(by="punctaj", ascending=False).all()
+    clasament=User.query.order_by(desc(User.punctaj)).all()
 
     for x in range(len(clasament)):
         clasament[x]=clasament[x].id
