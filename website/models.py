@@ -83,8 +83,8 @@ class Clasament(db.Model):
 class Pozitie(db.Model):
     id=db.Column(db.Integer,priamry_key=True)
     pozitie=db.column(db.Integer)
-poz=Pozitie.first()
-poz.pozitie=1
+    poz=Pozitie.first()
+    poz.pozitie=1
 
 class Admin(db.Model):
     id = db.Column(db.Integer, primary_key=True)
