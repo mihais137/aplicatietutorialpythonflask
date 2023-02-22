@@ -2,15 +2,16 @@ from flask import Blueprint, render_template, flash, request, redirect,url_for
 from flask_login import login_required, current_user
 from . import db
 from website.models import Drona
-from website.models import Clasament
-from website.models import Pozitie
+from website.models import User
+
 
 views = Blueprint('views', __name__)
 
 @views.route('/')
-
 def home():
 
+    #calculare_clasament()
+    
     return render_template('home.html', team = current_user)
 
 
@@ -44,14 +45,15 @@ def shop():
     if request.method == "POST":
         code = request.form.get('button')
         obj = Drona.query.filter_by(code = code).first()
-        poz=Pozitie.first()
+        #poz=Pozitie.first()
         if obj.stoc == 0:
             flash('Acest obiect nu se mai afla pe stoc', category='error')
-        elif current_user.loc!=poz.pozitie:
+        elif cine_alege()!=current_user.pozitie:
+        #current_user.loc!=poz.pozitie:
             flash('Nu e randul tau',category='error')
         else:
             current_user.add_cart_config(code)
-            poz.pozitie=poz.pozitie+1
+            #poz.pozitie=poz.pozitie+1
             db.session.commit()        
 
     return render_template('shop.html', team = current_user, products = products)
@@ -102,3 +104,44 @@ def shop_cart():
 
 
     return render_template('shop_cart.html', team = current_user, config_cart=config_cart)
+
+#def calculare_clasament():
+    users=User.query.all()
+    places=Clasament.query.all()
+    maxim1=0
+    maxim2=1000
+    i=1
+    for place in places:
+        for user in users:
+            if user.punctaj>maxim1 and user.punctaj<=maxim2:
+                maxim1=user.punctaj
+        for user in users:
+            if user.punctaj==maxim1:
+                place.username=user.username
+                place.loc=i
+        i=i+1
+        maxim2=maxim1
+        maxim1=0
+
+    db.session.commit()
+
+    return 0
+
+def cine_alege():
+    
+    clasament=User.query.sort_values(by="punctaj", ascending=False).all()
+
+    for x in range(len(clasament)):
+        clasament[x]=clasament[x].id
+    
+    for x, i in clasament, range(len(clasament)):
+        user=User.query.filter_by(id=x).first()
+        user.pozitie=i+1
+
+    for i in range(len(clasament)):
+        user=User.query.filter_by(pozitie=i).first()
+        if user.config=="":
+            poz=user.pozitie
+            return poz
+        else:
+            continue
