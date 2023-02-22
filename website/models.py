@@ -13,7 +13,7 @@ class User(db.Model, UserMixin):
     pozitie=db.Column(db.Integer)
  #   clasament=db.relationship('Clasament')
 
-    def __init__(self, username, password, points = 0, nume = 'Echipa', cart_config= '', config = '', color = '6600ff'):
+    def __init__(self, username, password, points = 0, nume = 'Echipa', cart_config= '', config = '', color = '6600ff', pozitie=1):
         self.username = username
         self.password = password
         self.points = points
@@ -21,6 +21,7 @@ class User(db.Model, UserMixin):
         self.cart_config = cart_config
         self.config = config
         self.color=color
+        self.pozitie=pozitie
 
     def change_name(self, name):
         self.name = name
