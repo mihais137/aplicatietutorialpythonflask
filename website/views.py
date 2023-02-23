@@ -126,10 +126,12 @@ def check_quiz():
 @views.route('/quiz', methods=['GET', 'POST'])
 def quiz():
 
-    #target_date = datetime.datetime(2023, 3, 1, 0, 0, 0) # set the target date for the countdown timer
-    target_date = datetime.datetime.now() + datetime.timedelta(minutes = 20) # get the current date and time
-    
-    #return render_template('home.html', target_date = target_date)
+    target_date_str = request.args.get('target_date')
+    if target_date_str:
+        target_date = datetime.fromisoformat(target_date_str)
+    else:
+        target_date = datetime.datetime.now() + datetime.timedelta(minutes=20)
+        target_date_str = target_date.isoformat()
 
     actual_time = 3
     quiz_time = 3
@@ -210,7 +212,7 @@ def quiz():
         return redirect(url_for('views.results'))
     else:
         return render_template('quiz.html', intrebare1 = intrebare1, raspunsuri1_lista = raspunsuri1_lista, intrebare2 = intrebare2,
-                               raspunsuri2_lista = raspunsuri2_lista)
+                               raspunsuri2_lista = raspunsuri2_lista, target_date = target_date_str)
     
 
 @views.route('/results', methods = ['GET', 'POST'])

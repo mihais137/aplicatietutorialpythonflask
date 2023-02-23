@@ -7,7 +7,7 @@
 
   <div class = Timer>
 
-    <p>There are <span id="minutes"></span> minutes and <span id="seconds"></span> seconds left until the end of the quiz.</p>
+    <p><span id="minutes"></span>:<span id="seconds"></span></p>
   
   </div>
 
@@ -17,16 +17,13 @@
 
 <div class = raspunsuri>
 
-    <form method="POST">
+    <form method="POST" id = "quiz-form">
         <br>
         {% for option in raspunsuri1_lista %}
           <input type="radio" name="select_option1" value="{{ option }}">
           <label>{{ option }}</label>
           <br>
-        {% endfor %}
-        <!-- <br>
-        <button type="submit">Submit</button> -->
-      
+        {% endfor %}    
 
 </div>
 
@@ -53,28 +50,39 @@
 </div>
 
 <script>
-        // function to update the countdown timer
-        function updateTimer() {
-            var targetDate = new Date("{{ target_date }}").getTime(); // get the target date from the Flask route and convert it to a JavaScript date object
-            var now = new Date().getTime(); // get the current date and time
-            var timeLeft = targetDate - now; // calculate the time left until the end of the quiz
-            var minutesLeft = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60)); // get the number of minutes left
-            var secondsLeft = Math.floor((timeLeft % (1000 * 60)) / 1000); // get the number of seconds left
+  // function to update the countdown timer
+  function updateTimer() {
+      var targetDateStr = localStorage.getItem("target_date"); // get the target date from localStorage
+      var targetDate = new Date(targetDateStr); // convert the target date to a JavaScript date object
+      var now = new Date().getTime(); // get the current date and time
+      var timeLeft = targetDate - now; // calculate the time left until the end of the quiz
+      var minutesLeft = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60)); // get the number of minutes left
+      var secondsLeft = Math.floor((timeLeft % (1000 * 60)) / 1000); // get the number of seconds left
 
-            document.getElementById("minutes").innerHTML = minutesLeft; // update the minutes left on the page
-            document.getElementById("seconds").innerHTML = secondsLeft; // update the seconds left on the page
-        }
+      document.getElementById("minutes").innerHTML = String(minutesLeft).padStart(2, '0'); // update the minutes left on the page with 2 digits
+      document.getElementById("seconds").innerHTML = String(secondsLeft).padStart(2, '0'); // update the seconds left on the page with 2 digits
+  
+      if (timeLeft < 0) {
+                // time has run out, redirect the user to another page
+                document.getElementById("quiz-form").submit();
+                href = "/results";
+            }
+  
+    }
 
-        // update the countdown timer every second
-        setInterval(updateTimer, 1000);
-    </script>
 
-<!-- <script>
-    $('#id_form-0-project').on('change', function() {
-    $('#status').text($(this).find('option').map(function(i, e){
-        return $(e).val() + " is " + ($(e).prop('selected') ? "" : "not ") + "selected";
-    }).get().join('; '));
-});
-</script> -->
+
+  // check if the target date is already stored in localStorage
+  if (!localStorage.getItem("target_date")) {
+      var targetDate = new Date();
+      targetDate.setMinutes(targetDate.getMinutes() + 1); // set the target date for the quiz to be 30 minutes from now
+      localStorage.setItem("target_date", targetDate.toISOString()); // store the target date in localStorage
+  }
+
+  
+
+  // update the countdown timer every second
+  setInterval(updateTimer, 1000);
+</script>
 
 {% endblock%}
