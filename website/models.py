@@ -3,16 +3,17 @@ from flask_login import UserMixin
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
-    numeEchipa = db.Column(db.String(150), unique=True)
+    username= db.Column(db.String(150), unique=True)
     parola = db.Column(db.String(150))
     nume=db.Column(db.String(150))
     color = db.Column(db.String(30))
     punctaj = db.Column(db.Integer)
     config = db.Column(db.Integer)
     cart_config = db.Column(db.String(100))
-    clasament=db.relationship('Clasament')
+    pozitie=db.Column(db.Integer)
+ #   clasament=db.relationship('Clasament')
 
-    def __init__(self, username, password, points = 0, nume = 'Echipa', cart_config= '', config = '', color = '6600ff'):
+    def __init__(self, username, password, points = 0, nume = 'Echipa', cart_config= '', config = '', color = '6600ff', pozitie=1):
         self.username = username
         self.password = password
         self.points = points
@@ -20,6 +21,7 @@ class User(db.Model, UserMixin):
         self.cart_config = cart_config
         self.config = config
         self.color=color
+        self.pozitie=pozitie
 
     def change_name(self, name):
         self.name = name
@@ -78,16 +80,19 @@ class Raspunsuri(db.Model):
     id_intrebare = db.Column(db.Integer, db.ForeignKey(Intrebari.id))
 
 
-class Clasament(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    username_id=db.Column(db.Integer,db.ForeignKey(User.id))
-    loc=db.Column(db.Integer)
+#class Clasament(db.Model):
+#    id = db.Column(db.Integer, primary_key=True)
+#    username_id=db.Column(db.Integer,db.ForeignKey(User.id))
+#   loc=db.Column(db.Integer)
 
-# class Pozitie(db.Model):
-#     id=db.Column(db.Integer,priamry_key=True)
-#     pozitie=db.column(db.Integer)
-#     poz=Pozitie.first()
-#     poz.pozitie=1
+#class Pozitie(db.Model):
+#    id=db.Column(db.Integer,primary_key=True)
+#    pozitie=db.column(db.Integer)
+
+# #    def __init__(self,pozitie=1):
+##     #     self.pozitie=pozitie
+##     poz=Pozitie.first()
+##     poz.pozitie=1
 
 class Admin(db.Model):
     id = db.Column(db.Integer, primary_key=True)
