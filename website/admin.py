@@ -1,5 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for
 from flask_login import current_user, login_required
+from .models import User
+from . import db
 
 admin = Blueprint('admin', __name__)
 
@@ -20,6 +22,15 @@ def admin_add_teams():
 
     if current_user.level != 'admin':
         return redirect(url_for('admin.admin_error'))
+    
+    if request.method == "POST":
+        username = request.form.get('username')
+        parola = request.form.get('parola')
+        level = request.form.get('level')
+
+        new_user = User(username = username, parola = parola, level = level)
+        db.session.add(new_user)
+        db.session.commit()
 
     return render_template('admin_add_teams.html', user = current_user)
 
