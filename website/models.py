@@ -4,6 +4,7 @@ from flask_login import UserMixin
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username= db.Column(db.String(150), unique=True)
+    level = db.Column(db.String(150))
     parola = db.Column(db.String(150))
     nume=db.Column(db.String(150))
     color = db.Column(db.String(30))
@@ -13,7 +14,7 @@ class User(db.Model, UserMixin):
     pozitie=db.Column(db.Integer)
  #   clasament=db.relationship('Clasament')
 
-    def __init__(self, username, password, points = 0, nume = 'Echipa', cart_config= '', config = '', color = '6600ff', pozitie=1):
+    def __init__(self, username, password, points = 0, nume = 'Echipa', cart_config= '', config = '', color = '6600ff', pozitie=1, level = 'team'):
         self.username = username
         self.password = password
         self.points = points
@@ -22,6 +23,7 @@ class User(db.Model, UserMixin):
         self.config = config
         self.color=color
         self.pozitie=pozitie
+        self.level = level
 
     def change_name(self, name):
         self.name = name
@@ -94,7 +96,7 @@ class Raspunsuri(db.Model):
 ##     poz=Pozitie.first()
 ##     poz.pozitie=1
 
-class Admin(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    numeAdmin = db.Column(db.String(150), unique=True)
-    parolaAdmin = db.Column(db.String(150))
+# class Admin(db.Model):
+#     id = db.Column(db.Integer, primary_key=True)
+#     numeAdmin = db.Column(db.String(150), unique=True)
+#     parolaAdmin = db.Column(db.String(150))

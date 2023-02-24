@@ -32,11 +32,28 @@
             </button>
             <div class="collapse navbar-collapse" id="navbar">
               <div class="navbar-nav">
+
+                {% if user.is_authenticated and  user.level == "team" %}}
                 <a class="nav-item nav-link" id="home" href="/">Home</a> 
-                <a class="nav-item nav-link" id="login" href="/login">Login</a>
+                <a class="nav-item nav-link" id="team_page" href="/team">Team Page</a> 
                 <a class="nav-item nav-link" id="quiz" href="/check_quiz">Quiz</a> 
                 <a class="nav-item nav-link" id="shop" href="/shop">Shop</a>
-                <a class="nav-item nav-link" id="admin" href="/admin">Admin</a>
+                <a class="nav-item nav-link" id="logout" href="/logout">Log Out</a>
+                {%endif%}
+
+                {% if user.is_authenticated and user.level == "admin" %}}
+                <a class="nav-item nav-link" id="home" href="/">Home</a> 
+                <a class="nav-item nav-link" id="admin" href="/admin_page">Admin</a>
+                <a class="nav-item nav-link" id="logout" href="/logout">Log Out</a>
+                {%endif%}
+
+                {% if user.is_authenticated == False %}}
+                <a class="nav-item nav-link" id="home" href="/">Home</a> 
+                <a class="nav-item nav-link" id="login" href="/login">Login</a>
+                {%endif%}
+
+
+
    <!--         <a class="nav-item nav-link" id="signUp" href="/sign-up">Sign Up</a>
                 <a class="nav-item nav-link" id="logout" href="/logout">Log Out</a>  
     -->             

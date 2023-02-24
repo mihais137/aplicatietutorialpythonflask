@@ -11,9 +11,10 @@ import datetime
 views = Blueprint('views', __name__)
 
 @views.route('/')
+@login_required
 def home():
 
-    return render_template('home.html', team = current_user)
+    return render_template('home.html', user = current_user)
 
 
 
@@ -36,11 +37,10 @@ def team():
         db.session.commit()
         flash('Nume actualizat', category='succes')
 
-    return render_template('team.html', team = current_user, config=config)
+    return render_template('team.html', user = current_user, config=config)
     
 @views.route('shop', methods = ['GET', 'POST'])
 @login_required
-
 def shop():
 
     products = Drona.query.all()
@@ -58,7 +58,7 @@ def shop():
             #poz.pozitie=poz.pozitie+1
             db.session.commit()        
 
-    return render_template('shop.html', team = current_user, products = products)
+    return render_template('shop.html', user = current_user, products = products)
 
 
 @views.route('shop_cart', methods = ['GET', 'POST'])
@@ -105,7 +105,7 @@ def shop_cart():
                 return redirect(url_for('views.team'))
 
 
-    return render_template('shop_cart.html', team = current_user, config_cart=config_cart)
+    return render_template('shop_cart.html', user = current_user, config_cart=config_cart)
 
 #def calculare_clasament():
     users=User.query.all()
@@ -148,6 +148,7 @@ def cine_alege():
             continue
 
 @views.route('/check_quiz', methods=['GET', 'POST'])
+@login_required
 def check_quiz():
 
     actual_time = 3 #timpul / ora curenta
@@ -161,9 +162,10 @@ def check_quiz():
         tip_test = "null"
         #return render_template("check_quiz.html")
 
-    return render_template("check_quiz.html", tip_test = tip_test)
+    return render_template("check_quiz.html", tip_test = tip_test, user = current_user)
 
 @views.route('/quiz', methods=['GET', 'POST'])
+@login_required
 def quiz():
 
     target_date_str = request.args.get('target_date')
@@ -252,10 +254,11 @@ def quiz():
         return redirect(url_for('views.results'))
     else:
         return render_template('quiz.html', intrebare1 = intrebare1, raspunsuri1_lista = raspunsuri1_lista, intrebare2 = intrebare2,
-                               raspunsuri2_lista = raspunsuri2_lista, target_date = target_date_str)
+                               raspunsuri2_lista = raspunsuri2_lista, target_date = target_date_str, user = current_user)
     
 
 @views.route('/results', methods = ['GET', 'POST'])
+@login_required
 def results():
 
     test = Test.query.filter_by(status = 'activ').first()
@@ -287,7 +290,7 @@ def results():
     punctaj = session["punctaj"]
 
     return render_template('results.html', punctaj = punctaj, rasp_corect1 = rasp_corect1, intrebare1 = intrebare1,
-                           rasp_corect2 = rasp_corect2, intrebare2 = intrebare2)
+                           rasp_corect2 = rasp_corect2, intrebare2 = intrebare2, user = current_user)
 
 
 def get_questions(nr_intrebari):
