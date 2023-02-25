@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Quiz{% endblock %}
+
+{% block content %}
+    
+{% if tip_test != "null": %}
+<div class = "btn-1">
+<a href="/quiz">
+    Start Quiz </a>
+</div>
+{% else: %}
+
+<div class = "btn-1">
+    <a class = "btn-1" href="/check_quiz">
+        Refresh </a>
+</div>
+{% endif %}
+
+<style>
+
+    .btn-1{
+        margin: auto;
+        height: 50px;
+        width: 50px;
+        padding-top: 100px;
+    }
+
+</style>
+
+{% endblock%}
