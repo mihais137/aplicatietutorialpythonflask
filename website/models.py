@@ -14,22 +14,22 @@ class User(db.Model, UserMixin):
     pozitie=db.Column(db.Integer)
  #   clasament=db.relationship('Clasament')
 
-    def __init__(self, username, password, points = 0, nume = 'Echipa', cart_config= '', config = '', color = '6600ff', pozitie=1, level = 'team'):
+    def __init__(self, username, password, punctaj = 0, nume = 'Echipa', cart_config= '', config = '', color = '6600ff', pozitie=1, level = 'team'):
         self.username = username
         self.password = password
-        self.points = points
-        self.name = nume
+        self.punctaj = punctaj
+        self.nume = nume
         self.cart_config = cart_config
         self.config = config
         self.color=color
         self.pozitie=pozitie
         self.level = level
 
-    def change_name(self, name):
-        self.name = name
+    def change_name(self, nume):
+        self.nume = nume
 
-    def change_points(self, points):
-        self.points = points
+    def change_points(self, punctaj):
+        self.punctaj = punctaj
 
     def change_color(self, color):
         self.color = color
@@ -45,13 +45,14 @@ class User(db.Model, UserMixin):
 class Drona(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     descriere = db.Column(db.String(150))
-    pret = db.Column(db.Integer)
+    code=db.Column(db.Integer)
+    nume=db.Column(db.String(30))
+    stoc=db.Column(db.Integer)
     poza = db.Column(db.String(1000))
     
-    def __init__(self, image, name, descriere, pret, code,stoc):
-        self.pret =pret
+    def __init__(self, image, nume, descriere, code, stoc):
         self.image = image
-        self.name = name
+        self.nume = nume
         self.descriere = descriere
         self.code = code
         self.stoc = stoc

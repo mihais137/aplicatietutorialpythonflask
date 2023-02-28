@@ -99,7 +99,7 @@ def shop_cart():
             elif current_user.cart_config != '':
                 current_user.add_config(current_user.cart_config)
                 current_user.add_cart_config('')
-                current_user.change_points(current_user.points - (config_cart.pret))
+                #current_user.change_points(current_user.points - (config_cart.pret))
                 config_cart.change_stoc(config_cart.stoc - 1)
                 db.session.commit()
                 return redirect(url_for('views.team'))
@@ -131,7 +131,7 @@ def shop_cart():
 
 def cine_alege():
     
-    clasament=User.query.order_by(desc(User.punctaj)).all()
+    clasament=User.query.filter_by(level="team").order_by(desc(User.punctaj)).all()
 
     for x in range(len(clasament)):
         clasament[x]=clasament[x].id
