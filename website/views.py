@@ -4,7 +4,6 @@ from . import db
 from website.models import Drona, Test, Intrebari, Raspunsuri
 from website.models import User
 from sqlalchemy import desc
-
 import random
 import datetime
 
@@ -13,6 +12,8 @@ views = Blueprint('views', __name__)
 @views.route('/')
 @login_required
 def home():
+
+    print(cine_alege())
 
     return render_template('home.html', user = current_user)
 
@@ -23,10 +24,10 @@ def home():
 def team():
 
     config_code = current_user.config
+    clasament = get_clasament()
     
-    config = Drona.query.filter_by(code = config_code).first()
+    config = Drona.query.filter_by(id = config_code).first()
     
-
     if request.method == 'POST':
         nume = request.form.get('id_team')
         color = request.form.get('color_team')
@@ -36,7 +37,7 @@ def team():
         db.session.commit()
         flash('Nume actualizat', category='succes')
 
-    return render_template('team.html', user = current_user, config=config)
+    return render_template('team.html', user = current_user, config=config, clasament = clasament)
     
 @views.route('shop', methods = ['GET', 'POST'])
 @login_required
@@ -45,13 +46,15 @@ def shop():
     products = Drona.query.all()
     if request.method == "POST":
         code = request.form.get('button')
-        obj = Drona.query.filter_by(code = code).first()
+        obj = Drona.query.filter_by(id = code).first()
         #poz=Pozitie.first()
         if obj.stoc == 0:
             flash('Acest obiect nu se mai afla pe stoc', category='error')
-        elif cine_alege()!=current_user.pozitie:
+            print('Acest obiect nu se mai afla pe stoc')            
+        elif cine_alege()!=current_user.id:
         #current_user.loc!=poz.pozitie:
             flash('Nu e randul tau',category='error')
+            print('Nu e randul tau')
         else:
             current_user.add_cart_config(code)
             #poz.pozitie=poz.pozitie+1
@@ -65,19 +68,11 @@ def shop():
 def shop_cart():
 
     config_cart_code = current_user.cart_config
+    config_cart = Drona.query.filter_by(id = config_cart_code).first()
     
-
-    print(config_cart_code)
-
-    config_cart = Drona.query.filter_by(code = config_cart_code).first()
-    
-
     if not config_cart:
         config_cart = 'null'
     
-
-    print(config_cart)
-
     if request.method == 'POST':
         check = request.form.get('button')
         if check == 'config':
@@ -85,66 +80,22 @@ def shop_cart():
             db.session.commit()
             return redirect(url_for('views.shop_cart'))
         if check == 'confirm':
-            config_cart = Drona.query.filter_by(code = config_cart_code).first()
+            config_cart = Drona.query.filter_by(id = config_cart_code).first()
             if current_user.cart_config == '':
                  flash('Nu ai obiecte in cos', category='error')
                  return redirect(url_for('views.shop_cart'))
-            elif current_user.punctaj < (config_cart.pret):
-                flash('Nu ai suficiente puncte', category='error')  
-                return redirect(url_for('views.shop_cart'))
             elif config_cart.stoc == 0:
                 flash('Produsul din cos nu mai este pe stoc', category='error')
                 return redirect(url_for('views.shop_cart'))         
             elif current_user.cart_config != '':
                 current_user.add_config(current_user.cart_config)
                 current_user.add_cart_config('')
-                #current_user.change_points(current_user.points - (config_cart.pret))
                 config_cart.change_stoc(config_cart.stoc - 1)
                 db.session.commit()
                 return redirect(url_for('views.team'))
 
-
     return render_template('shop_cart.html', user = current_user, config_cart=config_cart)
 
-#def calculare_clasament():
-    users=User.query.all()
-    places=Clasament.query.all()
-    maxim1=0
-    maxim2=1000
-    i=1
-    for place in places:
-        for user in users:
-            if user.punctaj>maxim1 and user.punctaj<=maxim2:
-                maxim1=user.punctaj
-        for user in users:
-            if user.punctaj==maxim1:
-                place.username=user.username
-                place.loc=i
-        i=i+1
-        maxim2=maxim1
-        maxim1=0
-
-    db.session.commit()
-
-    return 0
-
-def cine_alege():
-    
-    clasament=User.query.filter_by(level="team").order_by(desc(User.punctaj)).all()
-
-    for x in range(len(clasament)):
-        clasament[x]=clasament[x].id
-    
-    for x, i in clasament, range(len(clasament)):
-        user=User.query.filter_by(id=x).first()
-        user.pozitie=i+1
-
-    for i in range(len(clasament)):
-        user=User.query.filter_by(pozitie=i).first()
-        if user.config=="":
-            return user.pozitie
-        else:
-            continue
 
 @views.route('/check_quiz', methods=['GET', 'POST'])
 @login_required
@@ -297,3 +248,15 @@ def get_questions(nr_intrebari):
 
     pass
     #return lista intrebari, raspunsuri
+
+def cine_alege():
+
+    alege = User.query.filter_by(level = 'team').filter_by(config = 'no').order_by(desc(User.punctaj)).first()
+
+    return alege.id
+
+def get_clasament():
+        
+    clasament = User.query.filter_by(level = 'team').order_by(desc(User.punctaj)).all()
+
+    return clasament

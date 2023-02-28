@@ -45,16 +45,14 @@ class User(db.Model, UserMixin):
 class Drona(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     descriere = db.Column(db.String(150))
-    code=db.Column(db.Integer)
     nume=db.Column(db.String(30))
     stoc=db.Column(db.Integer)
     poza = db.Column(db.String(1000))
     
-    def __init__(self, image, nume, descriere, code, stoc):
+    def __init__(self, image, nume, descriere, stoc):
         self.image = image
         self.nume = nume
         self.descriere = descriere
-        self.code = code
         self.stoc = stoc
 
     def change_stoc(self, stoc):
