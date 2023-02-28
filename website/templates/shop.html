@@ -3,29 +3,29 @@
 {% block content%}
 
 <br>
-{% for product in products: %}
+{% for drona in products: %}
 <div class="container">
     <div class="card">
       <div class="card-header">
-        <img src= {{Drona.image}} alt="rover" />
+        <img src= {{drona.image}} alt="rover" />
       </div>
       <div class="card-body">
         <div class ="tags">
-        {%if Drona.stoc > 0:%}
+        {%if drona.stoc > 0:%}
         <span class="tag tag-green"> Disponibil</span> <br>
         {%else%}
         <span class="tag tag-red"> Indisponibil</span> <br>
         {%endif%}  
         </div>
-          {{Drona.name}}
+          {{drona.name}}
         </h4>
         <p>
-          {{Drona.descriere}} 
+          {{drona.descriere}} 
         </p>
         <div class="user">
           <div class="user-info">
             <form method = "POST">
-            <button class ="bn3637 bn36" name ='button' value = {{Drona.code}}> Adauga in cos</button>
+            <button class ="bn3637 bn36" name ='button' value = {{drona.id}}> Adauga in cos</button>
             </form>
           </div>
         </div>
