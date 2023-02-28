@@ -3,7 +3,7 @@ from flask_login import login_required, current_user
 from . import db
 from website.models import Drona, Test, Intrebari, Raspunsuri
 from website.models import User
-from sqlalchemy import desc
+#from sqlalchemy import desc
 
 import random
 import datetime
