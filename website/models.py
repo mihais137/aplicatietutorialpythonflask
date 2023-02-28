@@ -12,9 +12,10 @@ class User(db.Model, UserMixin):
     config = db.Column(db.Integer)
     cart_config = db.Column(db.String(100))
     pozitie=db.Column(db.Integer)
+    last_test = db.Column(db.String)
  #   clasament=db.relationship('Clasament')
 
-    def __init__(self, username, password, punctaj = 0, nume = 'Echipa', cart_config= '', config = '', color = '6600ff', pozitie=1, level = 'team'):
+    def __init__(self, username, password, punctaj = 0, nume = 'Echipa', cart_config= '', config = '', color = '6600ff', pozitie=1, level = 'team', last_test = ''):
         self.username = username
         self.password = password
         self.punctaj = punctaj
@@ -24,6 +25,7 @@ class User(db.Model, UserMixin):
         self.color=color
         self.pozitie=pozitie
         self.level = level
+        self.last_test = last_test
 
     def change_name(self, nume):
         self.nume = nume
@@ -40,6 +42,8 @@ class User(db.Model, UserMixin):
     def add_config(self, new_prod):
         self.config =  new_prod
 
+    def change_last_test(self, new_test):
+        self.last_test = new_test
 
 
 class Drona(db.Model):

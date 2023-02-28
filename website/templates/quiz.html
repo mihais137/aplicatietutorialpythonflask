@@ -11,45 +11,33 @@
   
   </div>
 
-<div class = intrebare>
-{{intrebare1}}
-</div>
-
-<div class = raspunsuri>
-
-    <form method="POST" id = "quiz-form">
-        <br>
-        {% for option in raspunsuri1_lista %}
-          <input type="radio" name="select_option1" value="{{ option }}">
-          <label>{{ option }}</label>
-          <br>
-        {% endfor %}    
-
-</div>
-
-<div class = intrebare>
-  <br>
-  {{intrebare2}}
-  </div>
-
-  <div class = raspunsuri>
-
-    
-        <br>
-        {% for option in raspunsuri2_lista %}
-          <input type="radio" name="select_option2" value="{{ option }}">
-          <label>{{ option }}</label>
-          <br>
-        {% endfor %}
-        <br>
-        <button type="submit">Submit</button>
-      </form>
+    <form method = 'post'>
+    {%for q in questions:%}
+      <div class = 'intrebare'>
+        {{q.intrebare}}
+      </div>
+      <div class = 'raspunsuri'>
+        <form method="POST" id = "quiz-form">
+            <br>
+            <input type="radio" name="select_option1" value="{{ q.raspunsuri[0].raspuns1 }}">
+            <label>{{ q.raspunsuri[0].raspuns1 }}</label>
+            <br>
+            <input type="radio" name="select_option2" value="{{ q.raspunsuri[0].raspuns2 }}">
+            <label>{{ q.raspunsuri[0].raspuns2 }}</label>
+            <br>
+            <input type="radio" name="select_option3" value="{{ q.raspunsuri[0].raspuns3 }}">
+            <label>{{ q.raspunsuri[0].raspuns3 }}</label>
+            <br>
+            <input type="radio" name="select_option4" value="{{ q.raspunsuri[0].raspuns4 }}">
+            <label>{{ q.raspunsuri[0].raspuns4 }}</label>
+            <br>
+    {%endfor%}
+      <button type="submit">Submit</button>
+    </form>
 
 </div>
 
-</div>
-
-<script>
+<!-- <script>
   // function to update the countdown timer
   function updateTimer() {
       var targetDateStr = localStorage.getItem("target_date"); // get the target date from localStorage
@@ -83,6 +71,6 @@
 
   // update the countdown timer every second
   setInterval(updateTimer, 1000);
-</script>
+</script> -->
 
 {% endblock%}
