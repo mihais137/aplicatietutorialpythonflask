@@ -19,16 +19,16 @@
       <div class = 'raspunsuri'>
         <form method="POST" id = "quiz-form">
             <br>
-            <input type="radio" name="select_option1" value="{{ q.raspunsuri[0].raspuns1 }}">
+            <input type="radio" name="{{ q.intrebare }}" value={{ q.raspunsuri[0].raspuns1 }}>
             <label>{{ q.raspunsuri[0].raspuns1 }}</label>
             <br>
-            <input type="radio" name="select_option2" value="{{ q.raspunsuri[0].raspuns2 }}">
+            <input type="radio" name="{{ q.intrebare }}" value={{ q.raspunsuri[0].raspuns2 }}>
             <label>{{ q.raspunsuri[0].raspuns2 }}</label>
             <br>
-            <input type="radio" name="select_option3" value="{{ q.raspunsuri[0].raspuns3 }}">
+            <input type="radio" name="{{ q.intrebare }}" value={{ q.raspunsuri[0].raspuns3 }}>
             <label>{{ q.raspunsuri[0].raspuns3 }}</label>
             <br>
-            <input type="radio" name="select_option4" value="{{ q.raspunsuri[0].raspuns4 }}">
+            <input type="radio" name="{{ q.intrebare }}" value={{ q.raspunsuri[0].raspuns4 }}>
             <label>{{ q.raspunsuri[0].raspuns4 }}</label>
             <br>
     {%endfor%}
@@ -37,7 +37,8 @@
 
 </div>
 
-<!-- <script>
+
+<script>
   // function to update the countdown timer
   function updateTimer() {
       var targetDateStr = localStorage.getItem("target_date"); // get the target date from localStorage
@@ -71,6 +72,6 @@
 
   // update the countdown timer every second
   setInterval(updateTimer, 1000);
-</script> -->
+</script>
 
 {% endblock%}

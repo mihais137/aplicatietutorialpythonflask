@@ -13,6 +13,8 @@ views = Blueprint('views', __name__)
 @login_required
 def home():
 
+    session.clear()
+
     return render_template('home.html', user = current_user)
 
 
@@ -122,11 +124,12 @@ def quiz():
     test = Test.query.filter_by(status = 'activ').first()
     if not test:
        return redirect(url_for('views.check_quiz'))
+    
+    if current_user.last_test == test.tip:
+        return redirect(url_for('views.home')) #trebuie return redirect catre o pagina de eroare
 
-    possible_questions = test.intrebari
-    # print(test.intrebari[0].raspunsuri[0].raspuns_c)
     if 'questions' not in session:
-        questions = random.choices(test.intrebari, k=2)
+        questions = random.sample(test.intrebari, k=2)
         questions_id = []
         for q in questions:
             questions_id.append(q.id)
@@ -135,80 +138,27 @@ def quiz():
     questions = []
     for q in session['questions']:
         questions.append(Intrebari.query.filter_by(id = q).first())
-
     
+    if request.method == "POST":
+        current_user.change_last_test = test.tip
+        answer_q1 = request.form.get(questions[0].intrebare)
+        answer_q2 = request.form.get(questions[1].intrebare)
 
+        points = 0
+
+        if answer_q1 == questions[0].raspuns_corect:
+            points += 50
+        if answer_q2 == questions[1].raspuns_corect:
+            points += 50 
+
+        session['points'] = points
+
+        current_user.change_points(current_user.punctaj + points)
+        db.session.commit()
+        return redirect(url_for('views.results'))
                          
     return render_template('quiz.html', user = current_user, questions = questions)
 
-    # intrebari_nush = test.intrebari
-    # intrebari_text = []
-    # intrebari = {} #are de fapt si raspunsurile
-
-    # raspuns = Raspunsuri.query.filter_by(id_intrebare = 1).first()
-    # raspunsuri = []
-    # raspunsuri.append(raspuns.raspuns1)
-    # raspunsuri.append(raspuns.raspuns2)
-    # raspunsuri.append(raspuns.raspuns3)
-    # raspunsuri.append(raspuns.raspuns4)
-    
-    # for i in intrebari_nush:
-    #     intrebari_text.append(i.intrebare)
-    #     intrebari[i.intrebare] = [raspunsuri, i.raspuns_corect]
-
-    # print(intrebari)
-
-    # lista_intrebari = []
-    # if "intrebare1" not in session:
-    #     session["intrebare1"] = random.choice(list(intrebari.keys()))
-    # lista_intrebari.append(session["intrebare1"])
-    # if "intrebare2" not in session:
-    #     session["intrebare2"] = random.choice(list(intrebari.keys()))
-    #     while True:
-    #         if session["intrebare2"] in lista_intrebari:
-    #             session["intrebare2"] = random.choice(list(intrebari.keys()))
-    #         else:
-    #             break
-    # lista_intrebari.append(session["intrebare2"])
-    
-    # intrebare1 = session["intrebare1"]
-    # raspunsuri1 = intrebari[intrebare1]
-    # raspuns_corect1 = raspunsuri1[1]
-    # raspunsuri1_lista = [item for item in raspunsuri1[0]]
-    # #raspunsuri1_lista.append(raspunsuri1[1])
-    # random.shuffle(raspunsuri1_lista) #noua aditie: am randomizat lista de raspunsuri ca sa nu mai fie cel corect ultimul mereu
-
-    # intrebare2 = session["intrebare2"]
-    # raspunsuri2 = intrebari[intrebare2]
-    # raspuns_corect2 = raspunsuri2[1]
-    # raspunsuri2_lista = [item for item in raspunsuri2[0]]
-    # #raspunsuri2_lista.append(raspunsuri2[1])
-    # random.shuffle(raspunsuri2_lista)
-
-    # # trebuie facut pentru n intrebari
-    
-    # session["punctaj"] = 0
-    # if request.method == 'POST':
-    #     selected_option_1 = request.form.get('select_option1')
-    #     print (selected_option_1)
-    #     if selected_option_1 == raspuns_corect1:
-    #         print("a")
-    #         session["punctaj"] += 50 # se va adauga in db punctajul
-    #     else:
-    #         session["punctaj"] += 0
-    #         print("b")
-    #     selected_option_2 = request.form.get('select_option2')
-    #     print (selected_option_2)
-    #     if selected_option_2 == raspuns_corect2:
-    #         print("da")
-    #         session["punctaj"] += 50
-    #     else:
-    #         print("nu")
-    #         session["punctaj"] += 0
-    #     return redirect(url_for('views.results'))
-    # return render_template('quiz.html', intrebare1 = intrebare1, raspunsuri1_lista = raspunsuri1_lista, intrebare2 = intrebare2,
-    #                            raspunsuri2_lista = raspunsuri2_lista, target_date = target_date_str, user = current_user)
-    
 
 @views.route('/results', methods = ['GET', 'POST'])
 @login_required
@@ -217,40 +167,16 @@ def results():
     test = Test.query.filter_by(status = 'activ').first()
     if not test:
        return redirect(url_for('views.check_quiz'))
-  
-    intrebari_nush = test.intrebari
-    intrebari_text = []
-    intrebari = {} #are de fapt si raspunsurile
 
-    raspuns = Raspunsuri.query.filter_by(id_intrebare = 1).first()
-    raspunsuri = []
-    raspunsuri.append(raspuns.raspuns1)
-    raspunsuri.append(raspuns.raspuns2)
-    raspunsuri.append(raspuns.raspuns3)
-    raspunsuri.append(raspuns.raspuns4)
-    
-    for i in intrebari_nush:
-        intrebari_text.append(i.intrebare)
-        intrebari[i.intrebare] = [raspunsuri, i.raspuns_corect]
-
-    #intrebari = {"Intrebarea 1?": [["rasp1", "rasp2", "rasp3"], "rasp_c"], "Intrebarea 2?": [["rasp1", "rasp2", "rasp3"], "rasp_c"], 
-                #"Intrebarea 3?": [["rasp1", "rasp2", "rasp3"], "rasp_c"]}
-    intrebare1 = session["intrebare1"]
-    rasp_corect1 = intrebari[intrebare1][1]
-    intrebare2 = session["intrebare2"]
-    rasp_corect2 = intrebari[intrebare2][1]
-
-    punctaj = session["punctaj"]
-
-    return render_template('results.html', punctaj = punctaj, rasp_corect1 = rasp_corect1, intrebare1 = intrebare1,
-                           rasp_corect2 = rasp_corect2, intrebare2 = intrebare2, user = current_user)
+    if 'questions' in session and 'points' in session:
+        questions = session['questions']
+        points = session['points']
+    else:
+        return redirect(url_for('views.home')) #trebuie return redirect catre o pagina de eroare
 
 
-def get_questions(nr_intrebari):
+    return render_template('results.html', user = current_user, questions = questions, points = points)
 
-
-    pass
-    #return lista intrebari, raspunsuri
 
 def cine_alege():
 
