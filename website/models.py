@@ -69,6 +69,10 @@ class Test(db.Model):
     durata = db.Column(db.Integer)
     intrebari = db.relationship('Intrebari')
 
+    def change_status(self, new_status):
+        self.status =  new_status
+
+
 class Intrebari(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     intrebare = db.Column(db.String)
