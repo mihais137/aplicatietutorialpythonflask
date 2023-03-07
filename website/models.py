@@ -17,7 +17,7 @@ class User(db.Model, UserMixin):
 
     def __init__(self, username, password, punctaj = 0, nume = 'Echipa', cart_config= '', config = '', color = '6600ff', pozitie=1, level = 'team', last_test = ''):
         self.username = username
-        self.password = password
+        self.parola = password
         self.punctaj = punctaj
         self.nume = nume
         self.cart_config = cart_config
@@ -68,6 +68,10 @@ class Test(db.Model):
     status = db.Column(db.String)
     durata = db.Column(db.Integer)
     intrebari = db.relationship('Intrebari')
+
+    def change_status(self, new_status):
+        self.status =  new_status
+
 
 class Intrebari(db.Model):
     id = db.Column(db.Integer, primary_key=True)

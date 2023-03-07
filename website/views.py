@@ -172,7 +172,7 @@ def results():
         questions = session['questions']
         points = session['points']
     else:
-        return redirect(url_for('views.home')) #trebuie return redirect catre o pagina de eroare
+        return redirect(url_for('views.home')) 
 
 
     return render_template('results.html', user = current_user, questions = questions, points = points)
