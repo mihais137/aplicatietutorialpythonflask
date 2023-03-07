@@ -76,9 +76,6 @@ def admin_error():
 
 @admin.route('/admin_sign_up', methods=['GET', 'POST'])
 def admin_sign_up():
-
-    if current_user.level != 'admin':
-        return redirect(url_for('admin.admin_error'))
     
     if request.method == "POST":
         username = request.form.get('username')
@@ -88,7 +85,7 @@ def admin_sign_up():
         if code != "DROWO23ADMIN":
             return redirect(url_for("views.home"))
         
-        admin = User(username=username, password=password)
+        admin = User(username=username, password=password, level = "admin")
         db.session.add(admin)
         db.session.commit()
 
