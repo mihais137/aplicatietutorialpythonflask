@@ -49,6 +49,15 @@ def admin_test():
 
     tests = Test.query.all()
 
+    # if request.method == "POST":
+    #     test = #preiei de la html id testuli
+        
+    #     test = Test.query.filter_by()
+    #     if test.status == "activ":
+    #         test.change_status("inactiv")
+    #     else:
+
+
     return render_template('admin_test.html', user = current_user, tests = tests)
 
 

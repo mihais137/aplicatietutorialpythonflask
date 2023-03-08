@@ -40,9 +40,9 @@
         <th>Teams</th>
     {% for test in testss:%}
     <tr>
-    <td>{{admin.id}}</td>
-    <td>{{admin.level}}</td>
-    <td>{{admin.email}}</td>
+    <td>{{test.nume}}</td> #doar afisas
+    <td>{{test.statut}}</td>
+    <td>{{test.duratal}}</td> #doar afisas
     <td>{{admin.generated_password}}</td>
     <td><form method = "POST" value = "change"> 
       <input type="hidden" name="change" value="delete">
