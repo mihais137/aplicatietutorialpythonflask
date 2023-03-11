@@ -2,8 +2,9 @@
 {% block title %} Admin {% endblock %}
 
 {% block content %}
-    
+<br></br>
 <h1>Adaugati drone in shop</h1>
+<br></br>
 <form method="POST">
     <div class="form-group">
         <label for="username">Nume</label>
@@ -22,7 +23,15 @@
         <input type="text" class="form-control" id="pozaDrona" name="pozaDrona" placeholder="Introduceti poza dronei"/>
     </div>
     <br/>
-    <button type="submit" class="btn btn-primary">Login</button>
+    <button type="submit" class="btn btn-primary">Add drone</button>
     </form>
+    <br></br>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for msg in messages %}
+            <p>{{msg}}</p>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
 
 {% endblock%}
