@@ -50,19 +50,20 @@ def admin_test():
     if current_user.level != 'admin':
         return redirect(url_for('admin.admin_error'))
 
-    #se preiau toate teste cu Test.query.all()
-    #se afiseaza toate
-    #fiecare au un buton in dreptul lor cu Activ/Inactiv si asa putem porni testele  
 
     tests = Test.query.all()
 
-    # if request.method == "POST":
-    #     test = #preiei de la html id testuli
-        
-    #     test = Test.query.filter_by()
-    #     if test.status == "activ":
-    #         test.change_status("inactiv")
-    #     else:
+    if request.method == "POST":
+        test_id = request.form.get('change_value')
+
+        test = Test.query.filter_by(id = test_id).first()
+        if test.status == "activ":
+            test.change_status("inactiv")
+        else:
+            test.change_status("activ")
+
+        flash('Schimbarea a fost facuta')
+        db.session.commit()
 
 
     return render_template('admin_test.html', user = current_user, tests = tests)
