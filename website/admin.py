@@ -1,6 +1,6 @@
-from flask import Blueprint, render_template, request, redirect, url_for
+from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import current_user, login_required
-from .models import User, Test
+from .models import User, Test, Drona
 from . import db
 admin = Blueprint('admin', __name__)
 
@@ -26,7 +26,7 @@ def admin_add_teams():
         username = request.form.get('username')
         level = request.form.get('level')
         password = request.form.get('password')
-        
+        flash("Ai bagat o echipa cu succes coae", 'success')
         print(username, level, password)
 
         new_team = User(username=username, level=level, password=password)
@@ -68,7 +68,18 @@ def admin_shop():
     if current_user.level != 'admin':
         return redirect(url_for('admin.admin_error'))
 
-    #formular prin care se adauga noi produse
+    if request.method == "POST":
+        descriere = request.form.get('descriereDrona')
+        nume = request.form.get('numeDrona')
+        stoc = request.form.get('stocDrona')
+        poza = request.form.get('pozaDrona')
+        flash("Ai bagat o drona cu succes coae", category='success')
+        print(descriere, nume, stoc, poza)
+
+        new_Drona = Drona(nume = nume, descriere = descriere, stoc = stoc, poza = poza)
+        db.session.add(new_Drona)
+        db.session.commit()
+
 
     return render_template('admin_shop.html', user = current_user)
 
@@ -93,7 +104,7 @@ def admin_sign_up():
 
         if code != "DROWO23ADMIN":
             return redirect(url_for("views.home"))
-        
+        flash("Ai creat un cont de admin cu succes!", 'message')
         admin = User(username=username, password=password, level = "admin")
         db.session.add(admin)
         db.session.commit()
