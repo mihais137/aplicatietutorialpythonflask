@@ -2,10 +2,10 @@
 {% block title %} Admin {% endblock %}
 
 {% block content %}
-    
+<br></br>
 <h1>Va rugam sa introduceti numele echipei si parola</h1>
+<br></br>
 <form method="POST">
-    <h3 align="center">Login</h3>
     <div class="form-group">
         <label for="username">Nume Echipa</label>
         <input type="text" class="form-control" id="username" name="username" placeholder="Introduceti numele echipei"/>
@@ -19,7 +19,17 @@
         <input type="text" class="form-control" id="level" name="level" placeholder="Introduceti nivelul"/>
     </div>
     <br/>
-    <button type="submit" class="btn btn-primary">Login</button>
+    <button type="submit" class="btn btn-primary">Add team</button>
     </form>
+
+    <br></br>
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for msg in messages %}
+                <p>{{msg}}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
 
 {% endblock%}
