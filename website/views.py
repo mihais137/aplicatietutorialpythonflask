@@ -46,11 +46,9 @@ def shop():
         code = request.form.get('button')
         obj = Drona.query.filter_by(id = code).first()
         if obj.stoc == 0:
-            flash('Acest obiect nu se mai afla pe stoc', category='error')
-            print('Acest obiect nu se mai afla pe stoc')            
+            flash('Acest obiect nu se mai afla pe stoc', category='error')         
         elif cine_alege()!=current_user.id:
-            flash('Nu e randul tau',category='error')
-            print('Nu e randul tau')
+            flash('Nu e randul tau', category='error')
         else:
             current_user.add_cart_config(code)
             db.session.commit()        
@@ -114,6 +112,7 @@ def quiz():
        return redirect(url_for('views.check_quiz'))
 
     if current_user.last_test == test.tip:
+        flash('Ai dat deja acest test', category="error")
         return redirect(url_for('views.home')) #trebuie return redirect catre o pagina de eroare
     
     durata = test.durata
@@ -145,6 +144,7 @@ def quiz():
 
         current_user.change_points(current_user.punctaj + points)
         db.session.commit()
+        flash('Test finalizat', category="succes")
         return redirect(url_for('views.results'))
                          
     return render_template('quiz.html', user = current_user, questions = questions, durata = durata)

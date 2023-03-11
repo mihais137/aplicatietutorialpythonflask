@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for
+from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import current_user, login_required
 from .models import User, Test
 from . import db
@@ -27,11 +27,18 @@ def admin_add_teams():
         level = request.form.get('level')
         password = request.form.get('password')
         
-        print(username, level, password)
+        if username == '' or level == '' or password == '':
+            flash('Toate cele 3 campuri trebuie sa fie completate pentru a putea adauga o echipa', category='error')
+            return(redirect(url_for('admin.admin_add_teams')))
+
+        if level != 'team':
+            flash('Poti adauga doar useri cu level = "team" ', category = 'error')
+            return(redirect(url_for('admin.admin_add_teams')))
 
         new_team = User(username=username, level=level, password=password)
         db.session.add(new_team)
         db.session.commit()
+        flash('Ai adaugat o noua echipa', category='succes')
 
     return render_template('admin_add_teams.html', user = current_user)
 
