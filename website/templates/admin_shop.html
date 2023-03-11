@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %} Admin {% endblock %}
+
+{% block content %}
+    
+<h1>Adaugati drone in shop</h1>
+<form method="POST">
+    <div class="form-group">
+        <label for="username">Nume</label>
+        <input type="text" class="form-control" id="numeDrona" name="numeDrona" placeholder="Introduceti numele dronei"/>
+    </div>
+    <div class="form-group">
+        <label for="username">Descriere</label>
+        <input type="text" class="form-control" id="descriereDrona" name="descriereDrona" placeholder="Introduceti descrierea dronei"/>
+    </div>
+    <div class="form-group">
+        <label for="username">Stoc</label>
+        <input type="text" class="form-control" id="stocDrona" name="stocDrona" placeholder="Introduceti stocul dronei"/>
+    </div>
+    <div class="form-group">
+        <label for="username">Poza</label>
+        <input type="text" class="form-control" id="pozaDrona" name="pozaDrona" placeholder="Introduceti poza dronei"/>
+    </div>
+    <br/>
+    <button type="submit" class="btn btn-primary">Login</button>
+    </form>
+
+{% endblock%}

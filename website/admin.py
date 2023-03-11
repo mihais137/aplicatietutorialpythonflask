@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for
 from flask_login import current_user, login_required
-from .models import User, Test
+from .models import User, Test, Drona
 from . import db
 admin = Blueprint('admin', __name__)
 
@@ -68,7 +68,18 @@ def admin_shop():
     if current_user.level != 'admin':
         return redirect(url_for('admin.admin_error'))
 
-    #formular prin care se adauga noi produse
+    if request.method == "POST":
+        descriere = request.form.get('descriereDrona')
+        nume = request.form.get('numeDrona')
+        stoc = request.form.get('stocDrona')
+        poza = request.form.get('pozaDrona')
+        
+        print(descriere, nume, stoc, poza)
+
+        new_Drona = Drona(nume = nume, descriere = descriere, stoc = stoc, poza = poza)
+        db.session.add(new_Drona)
+        db.session.commit()
+
 
     return render_template('admin_shop.html', user = current_user)
 
