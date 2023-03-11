@@ -26,12 +26,19 @@ def admin_add_teams():
         username = request.form.get('username')
         level = request.form.get('level')
         password = request.form.get('password')
-        flash("Ai bagat o echipa cu succes coae", 'success')
-        print(username, level, password)
+        
+        if username == '' or level == '' or password == '':
+            flash('Toate cele 3 campuri trebuie sa fie completate pentru a putea adauga o echipa', category='error')
+            return(redirect(url_for('admin.admin_add_teams')))
+
+        if level != 'team':
+            flash('Poti adauga doar useri cu level = "team" ', category = 'error')
+            return(redirect(url_for('admin.admin_add_teams')))
 
         new_team = User(username=username, level=level, password=password)
         db.session.add(new_team)
         db.session.commit()
+        flash('Ai adaugat o noua echipa', category='succes')
 
     return render_template('admin_add_teams.html', user = current_user)
 

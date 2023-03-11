@@ -17,13 +17,13 @@ def login():
         user = User.query.filter_by(username = numeEchipa).first()
         if user:
             if user.parola == parola:
-                flash('Logged in successfully!', category='success')
+                flash('Bine ai venit in aplicatia DroWo23', category='success')
                 login_user(user, remember=True)
                 return redirect(url_for('views.home'))
             else:
-                flash('Incorrect password, try again.', category='error')
+                flash('Parola incorecta.', category='error')
         else:
-            flash('Email does not exist.', category='error')
+            flash('Aceasta echipa nu exista in baza de date', category='error')
 
 
     return render_template("login.html", user=current_user)
