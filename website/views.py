@@ -114,19 +114,22 @@ def check_quiz():
 @login_required
 def quiz():
 
-    target_date_str = request.args.get('target_date')
-    if target_date_str:
-        target_date = datetime.fromisoformat(target_date_str)
-    else:
-        target_date = datetime.datetime.now() + datetime.timedelta(minutes=20000)
-        target_date_str = target_date.isoformat()
+    #sectiunea asta de timer nu se foloseste nicaieri
+    # target_date_str = request.args.get('target_date')
+    # if target_date_str:
+    #     target_date = datetime.fromisoformat(target_date_str)
+    # else:
+    #     target_date = datetime.datetime.now() + datetime.timedelta(minutes=20000)
+    #     target_date_str = target_date.isoformat()
     
     test = Test.query.filter_by(status = 'activ').first()
     if not test:
        return redirect(url_for('views.check_quiz'))
-    
+
     if current_user.last_test == test.tip:
         return redirect(url_for('views.home')) #trebuie return redirect catre o pagina de eroare
+    
+    durata = test.durata
 
     if 'questions' not in session:
         questions = random.sample(test.intrebari, k=2)
@@ -157,7 +160,7 @@ def quiz():
         db.session.commit()
         return redirect(url_for('views.results'))
                          
-    return render_template('quiz.html', user = current_user, questions = questions)
+    return render_template('quiz.html', user = current_user, questions = questions, durata = durata)
 
 
 @views.route('/results', methods = ['GET', 'POST'])
@@ -172,7 +175,7 @@ def results():
         questions = session['questions']
         points = session['points']
     else:
-        return redirect(url_for('views.home')) #trebuie return redirect catre o pagina de eroare
+        return redirect(url_for('views.home')) 
 
 
     return render_template('results.html', user = current_user, questions = questions, points = points)
