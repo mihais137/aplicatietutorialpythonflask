@@ -132,6 +132,9 @@ def quiz():
         current_user.change_last_test = test.tip
         answer_q1 = request.form.get(questions[0].intrebare)
         answer_q2 = request.form.get(questions[1].intrebare)
+        time_remianing = request.form.get("time_remaining")
+
+        print(time_remianing)
 
         points = 0
 

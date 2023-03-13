@@ -11,11 +11,10 @@ class User(db.Model, UserMixin):
     punctaj = db.Column(db.Integer)
     config = db.Column(db.Integer)
     cart_config = db.Column(db.String(100))
-    pozitie=db.Column(db.Integer)
     last_test = db.Column(db.String)
  #   clasament=db.relationship('Clasament')
 
-    def __init__(self, username, password, punctaj = 0, nume = 'Echipa', cart_config= '', config = '', color = '6600ff', pozitie=1, level = 'team', last_test = ''):
+    def __init__(self, username, password, punctaj = 0, nume = 'Echipa', cart_config= '', config = '', color = '6600ff',  level = 'team', last_test = ''):
         self.username = username
         self.parola = password
         self.punctaj = punctaj
@@ -23,7 +22,6 @@ class User(db.Model, UserMixin):
         self.cart_config = cart_config
         self.config = config
         self.color=color
-        self.pozitie=pozitie
         self.level = level
         self.last_test = last_test
 
