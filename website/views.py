@@ -13,7 +13,6 @@ views = Blueprint('views', __name__)
 @login_required
 def home():
 
-    session.clear()
 
     return render_template('home.html', user = current_user)
 
@@ -32,7 +31,6 @@ def team():
         color = request.form.get('color_team')
         current_user.change_nume(nume)
         current_user.change_color(color)
-        #db.session.update()
         db.session.commit()
         flash('Nume actualizat', category='succes')
 
@@ -47,17 +45,12 @@ def shop():
     if request.method == "POST":
         code = request.form.get('button')
         obj = Drona.query.filter_by(id = code).first()
-        #poz=Pozitie.first()
         if obj.stoc == 0:
-            flash('Acest obiect nu se mai afla pe stoc', category='error')
-            print('Acest obiect nu se mai afla pe stoc')            
+            flash('Acest obiect nu se mai afla pe stoc', category='error')         
         elif cine_alege()!=current_user.id:
-        #current_user.loc!=poz.pozitie:
-            flash('Nu e randul tau',category='error')
-            print('Nu e randul tau')
+            flash('Nu e randul tau', category='error')
         else:
             current_user.add_cart_config(code)
-            #poz.pozitie=poz.pozitie+1
             db.session.commit()        
 
     return render_template('shop.html', user = current_user, products = products)
@@ -116,19 +109,12 @@ def check_quiz():
 @login_required
 def quiz():
 
-    #sectiunea asta de timer nu se foloseste nicaieri
-    # target_date_str = request.args.get('target_date')
-    # if target_date_str:
-    #     target_date = datetime.fromisoformat(target_date_str)
-    # else:
-    #     target_date = datetime.datetime.now() + datetime.timedelta(minutes=20000)
-    #     target_date_str = target_date.isoformat()
-    
     test = Test.query.filter_by(status = 'activ').first()
     if not test:
        return redirect(url_for('views.check_quiz'))
 
     if current_user.last_test == test.tip:
+        flash('Ai dat deja acest test', category="error")
         return redirect(url_for('views.home')) #trebuie return redirect catre o pagina de eroare
     
     durata = test.durata
@@ -155,6 +141,7 @@ def quiz():
         points = 0
 
         if answer_q1 == questions[0].raspuns_corect:
+
             points += 20
         if answer_q2 == questions[1].raspuns_corect:
             points += 20
@@ -175,6 +162,7 @@ def quiz():
 
         current_user.change_points(current_user.punctaj + points)
         db.session.commit()
+        flash('Test finalizat', category="succes")
         return redirect(url_for('views.results'))
                          
     return render_template('quiz.html', user = current_user, questions = questions, durata = durata)
@@ -187,6 +175,10 @@ def results():
     test = Test.query.filter_by(status = 'activ').first()
     if not test:
        return redirect(url_for('views.check_quiz'))
+
+    if test.tip != current_user.last_test:
+        current_user.change_last_test(test.tip)
+        db.session.commit()
 
     if 'questions' in session and 'points' in session:
         questions = session['questions']

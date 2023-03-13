@@ -1,6 +1,6 @@
-from flask import Blueprint, render_template, request, redirect, url_for
+from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import current_user, login_required
-from .models import User, Test
+from .models import User, Test, Drona
 from . import db
 admin = Blueprint('admin', __name__)
 
@@ -27,11 +27,18 @@ def admin_add_teams():
         level = request.form.get('level')
         password = request.form.get('password')
         
-        print(username, level, password)
+        if username == '' or level == '' or password == '':
+            flash('Toate cele 3 campuri trebuie sa fie completate pentru a putea adauga o echipa', category='error')
+            return(redirect(url_for('admin.admin_add_teams')))
+
+        if level != 'team':
+            flash('Poti adauga doar useri cu level = "team" ', category = 'error')
+            return(redirect(url_for('admin.admin_add_teams')))
 
         new_team = User(username=username, level=level, password=password)
         db.session.add(new_team)
         db.session.commit()
+        flash('Ai adaugat o noua echipa', category='succes')
 
     return render_template('admin_add_teams.html', user = current_user)
 
@@ -43,19 +50,20 @@ def admin_test():
     if current_user.level != 'admin':
         return redirect(url_for('admin.admin_error'))
 
-    #se preiau toate teste cu Test.query.all()
-    #se afiseaza toate
-    #fiecare au un buton in dreptul lor cu Activ/Inactiv si asa putem porni testele  
 
     tests = Test.query.all()
 
-    # if request.method == "POST":
-    #     test = #preiei de la html id testuli
-        
-    #     test = Test.query.filter_by()
-    #     if test.status == "activ":
-    #         test.change_status("inactiv")
-    #     else:
+    if request.method == "POST":
+        test_id = request.form.get('change_value')
+
+        test = Test.query.filter_by(id = test_id).first()
+        if test.status == "activ":
+            test.change_status("inactiv")
+        else:
+            test.change_status("activ")
+
+        flash('Schimbarea a fost facuta')
+        db.session.commit()
 
 
     return render_template('admin_test.html', user = current_user, tests = tests)
@@ -68,7 +76,18 @@ def admin_shop():
     if current_user.level != 'admin':
         return redirect(url_for('admin.admin_error'))
 
-    #formular prin care se adauga noi produse
+    if request.method == "POST":
+        descriere = request.form.get('descriereDrona')
+        nume = request.form.get('numeDrona')
+        stoc = request.form.get('stocDrona')
+        poza = request.form.get('pozaDrona')
+        flash("Ai bagat o drona cu succes coae", category='success')
+        print(descriere, nume, stoc, poza)
+
+        new_Drona = Drona(nume = nume, descriere = descriere, stoc = stoc, poza = poza)
+        db.session.add(new_Drona)
+        db.session.commit()
+
 
     return render_template('admin_shop.html', user = current_user)
 
@@ -93,7 +112,7 @@ def admin_sign_up():
 
         if code != "DROWO23ADMIN":
             return redirect(url_for("views.home"))
-        
+        flash("Ai creat un cont de admin cu succes!", 'message')
         admin = User(username=username, password=password, level = "admin")
         db.session.add(admin)
         db.session.commit()

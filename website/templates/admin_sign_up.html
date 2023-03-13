@@ -2,9 +2,10 @@
 {% block title %}Login - DroWo 23{% endblock %}
 
 {% block content %}
-    <h1>Va rugam sa introduceti numele echipei si parola</h1>
+<br></br>
+    <h1>Va rugam sa introduceti numele si parola contului nou de admin</h1>
     <form method="POST">
-        <h3 align="center">Login</h3>
+        <h3 align="center">Add admin</h3>
         <div class="form-group">
             <label for="username">Username</label>
             <input type="text" class="form-control" id="numeEchipa" name="username" placeholder="Introduceti numele echipei"/>
@@ -18,6 +19,15 @@
             <input type="password" class="form-control" id="parolaEchipa" name="code" placeholder="Introduceti codul"/>
         </div>
         <br>
-        <button type="submit" class="btn btn-primary">Login</button>
+        <button type="submit" class="btn btn-primary">Add admin</button>
         </form>
+        <br></br>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for msg in messages %}
+                <p>{{msg}}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    
 {% endblock%}

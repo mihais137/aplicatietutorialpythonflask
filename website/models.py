@@ -53,8 +53,8 @@ class Drona(db.Model):
     stoc=db.Column(db.Integer)
     poza = db.Column(db.String(1000))
     
-    def __init__(self, image, nume, descriere, stoc):
-        self.image = image
+    def __init__(self, poza, nume, descriere, stoc):
+        self.poza = poza
         self.nume = nume
         self.descriere = descriere
         self.stoc = stoc
