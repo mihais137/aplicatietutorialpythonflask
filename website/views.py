@@ -95,12 +95,14 @@ def shop_cart():
 def check_quiz():
 
     test = Test.query.filter_by(status = 'activ').first()
+    team_name = User.query.first()
+    name = team_name.nume
     if test:
         tip_test = test.tip
     else:
         tip_test = "null"
 
-    return render_template("check_quiz.html", tip_test = tip_test, user = current_user)
+    return render_template("check_quiz.html", tip_test = tip_test, user = current_user, name = name)
 
 
 @views.route('/quiz', methods=['GET', 'POST'])
@@ -118,7 +120,7 @@ def quiz():
     durata = test.durata
 
     if 'questions' not in session:
-        questions = random.sample(test.intrebari, k=2)
+        questions = random.sample(test.intrebari, k=5)
         questions_id = []
         for q in questions:
             questions_id.append(q.id)
@@ -132,13 +134,29 @@ def quiz():
         current_user.change_last_test = test.tip
         answer_q1 = request.form.get(questions[0].intrebare)
         answer_q2 = request.form.get(questions[1].intrebare)
+        answer_q3 = request.form.get(questions[2].intrebare)
+        answer_q4 = request.form.get(questions[3].intrebare)
+        answer_q5 = request.form.get(questions[4].intrebare)
 
         points = 0
 
         if answer_q1 == questions[0].raspuns_corect:
-            points += 2
+
+            points += 20
         if answer_q2 == questions[1].raspuns_corect:
-            points += 2 
+            points += 20
+        if answer_q3 == questions[2].raspuns_corect:
+            points += 20
+        if answer_q4 == questions[3].raspuns_corect:
+            points += 20
+        if answer_q5 == questions[4].raspuns_corect:
+            points += 20
+
+        # remaining_time = request.form.get('remaining_time')
+        # remaining_time_points = remaining_time * 0.01
+        # points += remaining_time_points
+        # remaining_time = request.get_json()
+        # points += remaining_time
 
         session['points'] = points
 
