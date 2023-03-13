@@ -95,14 +95,12 @@ def shop_cart():
 def check_quiz():
 
     test = Test.query.filter_by(status = 'activ').first()
-    team_name = User.query.first()
-    name = team_name.nume
     if test:
         tip_test = test.tip
     else:
         tip_test = "null"
 
-    return render_template("check_quiz.html", tip_test = tip_test, user = current_user, name = name)
+    return render_template("check_quiz.html", tip_test = tip_test, user = current_user)
 
 
 @views.route('/quiz', methods=['GET', 'POST'])
