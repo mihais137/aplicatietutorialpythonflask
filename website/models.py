@@ -10,11 +10,13 @@ class User(db.Model, UserMixin):
     color = db.Column(db.String(30))
     punctaj = db.Column(db.Integer)
     config = db.Column(db.Integer)
+    frame = db.Column(db.String(100))
     cart_config = db.Column(db.String(100))
+    cart_frame = db.Column(db.String(100))
     last_test = db.Column(db.String)
  #   clasament=db.relationship('Clasament')
 
-    def __init__(self, username, password, punctaj = 0, nume = 'Echipa', cart_config= '', config = '', color = '6600ff',  level = 'team', last_test = ''):
+    def __init__(self, username, password, punctaj = 0, nume = 'Echipa', cart_config= '',cart_frame ='', config = '', frame ='', color = '6600ff',  level = 'team', last_test = ''):
         self.username = username
         self.parola = password
         self.punctaj = punctaj
@@ -42,6 +44,12 @@ class User(db.Model, UserMixin):
 
     def change_last_test(self, new_test):
         self.last_test = new_test
+    
+    def add_cart_frame(self, new_prod):
+        self.cart_frame =  new_prod
+
+    def add_frame(self, new_prod):
+        self.frame =  new_prod
 
 
 class Drona(db.Model):

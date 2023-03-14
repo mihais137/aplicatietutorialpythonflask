@@ -22,10 +22,11 @@ def home():
 def team():
 
     config_code = current_user.config
+    frame_code = current_user.frame
     clasament = get_clasament()
     
     config = Drona.query.filter_by(id = config_code).first()
-    
+    frame = Drona.query.filter_by(id = frame_code).first()
     if request.method == 'POST':
         nume = request.form.get('id_team')
         color = request.form.get('color_team')
@@ -34,7 +35,7 @@ def team():
         db.session.commit()
         flash('Nume actualizat', category='succes')
 
-    return render_template('team.html', user = current_user, config=config, clasament = clasament)
+    return render_template('team.html', user = current_user, config=config,frame=frame,clasament = clasament)
     
 
 @views.route('shop', methods = ['GET', 'POST'])
@@ -49,9 +50,12 @@ def shop():
             flash('Acest obiect nu se mai afla pe stoc', category='error')         
         elif cine_alege()!=current_user.id:
             flash('Nu e randul tau', category='error')
-        else:
+        elif obj.nume.startswith('CONFIG'):
             current_user.add_cart_config(code)
             db.session.commit()        
+        elif obj.nume.startswith('FRAME'):
+            current_user.add_cart_config(code)
+            db.session.commit()
 
     return render_template('shop.html', user = current_user, products = products)
 
@@ -61,33 +65,50 @@ def shop():
 def shop_cart():
 
     config_cart_code = current_user.cart_config
+    frame_cart_code = current_user.cart_frame
+
+    frame_cart=Drona.query.filter_by(id = frame_cart_code).first()
     config_cart = Drona.query.filter_by(id = config_cart_code).first()
     
     if not config_cart:
         config_cart = 'null'
     
+    if not frame_cart:
+        frame_cart = 'null'
+    
     if request.method == 'POST':
         check = request.form.get('button')
+
         if check == 'config':
             current_user.add_cart_config('')
             db.session.commit()
             return redirect(url_for('views.shop_cart'))
+        
+        if check == 'frame':
+            current_user.add_cart_frame('')
+            db.session.commit()
+            return redirect(url_for('views.shop_cart'))
+        
         if check == 'confirm':
             config_cart = Drona.query.filter_by(id = config_cart_code).first()
-            if current_user.cart_config == '':
+            frame_cart = Drona.query.filter_by(id = frame_cart_code).first()
+            if current_user.cart_config== '':
                  flash('Nu ai obiecte in cos', category='error')
                  return redirect(url_for('views.shop_cart'))
             elif config_cart.stoc == 0:
                 flash('Produsul din cos nu mai este pe stoc', category='error')
                 return redirect(url_for('views.shop_cart'))         
             elif current_user.cart_config != '':
+                current_user.add_frame(current_user.cart_frame)
                 current_user.add_config(current_user.cart_config)
                 current_user.add_cart_config('')
+                current_user.add_cart_frame('')
                 config_cart.change_stoc(config_cart.stoc - 1)
+                frame_cart.change_stoc(frame_cart.stoc - 1)
                 db.session.commit()
                 return redirect(url_for('views.team'))
 
-    return render_template('shop_cart.html', user = current_user, config_cart=config_cart)
+    return render_template('shop_cart.html', user = current_user, config_cart=config_cart, frame_cart=frame_cart)
 
 
 @views.route('/check_quiz', methods=['GET', 'POST'])
@@ -192,7 +213,7 @@ def results():
 
 def cine_alege():
 
-    alege = User.query.filter_by(level = 'team').filter_by(config = 'no').order_by(desc(User.punctaj)).first()
+    alege = User.query.filter_by(level = 'team').filter_by(config = 'no',frame= 'no').order_by(desc(User.punctaj)).first()
 
     return alege.id
 
