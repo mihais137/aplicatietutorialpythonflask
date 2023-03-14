@@ -3,35 +3,37 @@
 {% block content%}
 
 <br>
-{% for drona in products: %}
-<div class="container">
-    <div class="card">
-      <div class="card-header">
-        <img src= {{drona.image}} alt="rover" />
-      </div>
-      <div class="card-body">
-        <div class ="tags">
-        {%if drona.stoc > 0:%}
-        <span class="tag tag-green"> Disponibil</span> <br>
-        {%else%}
-        <span class="tag tag-red"> Indisponibil</span> <br>
-        {%endif%}  
+<div class="coloane">
+  {% for drona in products: %}
+  <div class="container">
+      <div class="card">
+        <div class="card-header">
+          <img src= {{drona.image}} alt="rover" />
         </div>
-          {{drona.name}}
-        </h4>
-        <p>
-          {{drona.descriere}} 
-        </p>
-        <div class="user">
-          <div class="user-info">
-            <form method = "POST">
-            <button class ="bn3637 bn36" name ='button' value = {{drona.id}}> Adauga in cos</button>
-            </form>
+        <div class="card-body">
+          <div class ="tags">
+          {%if drona.stoc > 0:%}
+          <span class="tag tag-green"> Disponibil</span> <br>
+          {%else%}
+          <span class="tag tag-red"> Indisponibil</span> <br>
+          {%endif%}  
+          </div>
+          <h4>
+            {{drona.name}}
+          </h4>
+          <p>
+            {{drona.descriere}} 
+          </p>
+          <div class="user">
+            <div class="user-info">
+              <form method = "POST">
+              <button class ="bn3637 bn36" name ='button' value = {{drona.id}}> Adauga in cos</button>
+              </form>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-
+</div>
 
 
 {% endfor %}
@@ -50,8 +52,13 @@ body {
   background-color: #f7f8fc;
   color: #10182f;
 }
+
+.coloane{
+  column-count: 3;
+}
 .container {
-  display: flex;
+  column-count: 3;
+  display: grid;
   width: 400px;
   justify-content: space-evenly;
   flex-wrap: wrap;
