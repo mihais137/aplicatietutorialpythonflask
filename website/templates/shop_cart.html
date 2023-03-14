@@ -1,37 +1,66 @@
 {% extends "base.html" %} {% block title %} Cos {% endblock %} 
 
 {% block content%}
+<div class="coloane">
+  <div class="container">
+      <div class="card">
+        <div class="card-header">
+        </div>
+        {% if config_cart == 'null':%}
+        <h4> <center> Inca nu ai o configuratie in cos. Te rugam sa introduci una <center> </h4>
+        {%else:%}
+        <div class="card-body">
+          <span class="tag tag-teal"> Configuratie</span> <br>
+          <h4>
+              {{config_cart.nume}}
+          </h4>
+          <p>
+            {{config_cart.id}}
+          </p>
+          <div class="user">
+            <div class="user-info">
+              <form method = "POST">
+              <button class ="bn3637 bn36" name ='button' value = 'config'> Elimina din cos</button>
+              </form>
+            </div>
+          </div>
+        </div>
+        {%endif%}
+      </div>
 
-<div class="container">
+      
+  <br><br><br>
+
+  <div class="container2">
     <div class="card">
       <div class="card-header">
       </div>
-      {% if config_cart == 'null':%}
-      <h4> <center> Inca nu ai o configuratie in cos. Te rugam sa introduci una <center> </h4>
+      {% if frame_cart == 'null':%}
+      <h4> <center> Inca nu ai un frame in cos. Te rugam sa introduci unul <center> </h4>
       {%else:%}
       <div class="card-body">
-        <span class="tag tag-teal"> Configuratie</span> <br>
+        <span class="tag tag-teal"> Frame</span> <br>
         <h4>
-            {{config_cart.name}}
+            {{frame_cart.nume}}
         </h4>
         <p>
-          {{config_cart.id}}
+          {{frame_cart.id}}
         </p>
         <div class="user">
           <div class="user-info">
             <form method = "POST">
-            <button class ="bn3637 bn36" name ='button' value = 'config'> Elimina din cos</button>
+            <button class ="bn3637 bn36" name ='button' value = 'frame'> Elimina din cos</button>
             </form>
           </div>
         </div>
       </div>
       {%endif%}
     </div>
-    </div>
+
 
     
-<br><br><br>
-
+  <br><br><br>
+</div>
 
 <form method = "POST">
     <button class ="bn3638 bn36" name ='button' value = 'confirm'> Finalizeaza comanda</button>
@@ -50,8 +79,20 @@
       background-color: #f7f8fc;
       color: #10182f;
     }
+    .coloane{
+      column-count: 2;
+    }
     .container {
-      display:flex;
+      column-count: 2;
+      display:grid;
+      width: 400px;
+      justify-content:center;
+      flex-wrap:wrap;
+      padding-top: 25px;
+    }
+    .container2 {
+      column-count: 2;
+      display:grid;
       width: 400px;
       justify-content:center;
       flex-wrap:wrap;
