@@ -35,7 +35,7 @@ def team():
         db.session.commit()
         flash('Nume actualizat', category='succes')
 
-    return render_template('team.html', user = current_user, config=config,frame=frame,clasament = clasament)
+    return render_template('team.html', user = current_user, config=config, frame=frame,clasament = clasament)
     
 
 @views.route('shop', methods = ['GET', 'POST'])
@@ -54,7 +54,7 @@ def shop():
             current_user.add_cart_config(code)
             db.session.commit()        
         elif obj.nume.startswith('FRAME'):
-            current_user.add_cart_config(code)
+            current_user.add_cart_frame(code)
             db.session.commit()
 
     return render_template('shop.html', user = current_user, products = products)
@@ -67,7 +67,7 @@ def shop_cart():
     config_cart_code = current_user.cart_config
     frame_cart_code = current_user.cart_frame
 
-    frame_cart=Drona.query.filter_by(id = frame_cart_code).first()
+    frame_cart= Drona.query.filter_by(id = frame_cart_code).first()
     config_cart = Drona.query.filter_by(id = config_cart_code).first()
     
     if not config_cart:
@@ -92,13 +92,13 @@ def shop_cart():
         if check == 'confirm':
             config_cart = Drona.query.filter_by(id = config_cart_code).first()
             frame_cart = Drona.query.filter_by(id = frame_cart_code).first()
-            if current_user.cart_config== '':
-                 flash('Nu ai obiecte in cos', category='error')
+            if current_user.cart_config or current_user.cart_frame == '':
+                 flash('Nu ai destule obiecte in cos', category='error')
                  return redirect(url_for('views.shop_cart'))
-            elif config_cart.stoc == 0:
+            elif config_cart.stoc== 0 or frame_cart.stoc== 0:
                 flash('Produsul din cos nu mai este pe stoc', category='error')
                 return redirect(url_for('views.shop_cart'))         
-            elif current_user.cart_config != '':
+            elif current_user.cart_config!='' and current_user.cart_frame != '':
                 current_user.add_frame(current_user.cart_frame)
                 current_user.add_config(current_user.cart_config)
                 current_user.add_cart_config('')
