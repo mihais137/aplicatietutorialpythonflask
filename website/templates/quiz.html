@@ -6,39 +6,50 @@
 <div class = container>
 
   <div class="timer">
-    <p><span id="minutes"></span>:<span id="seconds"></span></p>
+    <p> <strong><span id="minutes"></span>:<span id="seconds"></span></strong></p>
     <input type="hidden" name="remaining_time" id="remaining_time" value="">
   </div>
-    <br>
     <form method = 'post' id = 'quiz-form'>
 
+      <br>
+      <br>
+      <br>
+      <br>
+
     {%for q in questions:%}
+    <div class = 'fiecare_intreb'>
       <div class = 'intrebare'>
         {{q.intrebare}}
       </div>
       <div class = 'raspunsuri'>
         <form method="POST" id = "quiz-form">
             <br>
-            <input type="radio" name="{{ q.intrebare }}" value={{ q.raspunsuri[0].raspuns1 }}>
+            <input type="radio" name="{{ q.intrebare }}" value={{q.raspunsuri[0].raspuns1}}>
             <label>{{ q.raspunsuri[0].raspuns1 }}</label>
             <br>
-            <input type="radio" name="{{ q.intrebare }}" value={{ q.raspunsuri[0].raspuns2 }}>
+            <input type="radio" name="{{ q.intrebare }}" value={{q.raspunsuri[0].raspuns2}}>
             <label>{{ q.raspunsuri[0].raspuns2 }}</label>
             <br>
-            <input type="radio" name="{{ q.intrebare }}" value={{ q.raspunsuri[0].raspuns3 }}>
+            <input type="radio" name="{{ q.intrebare }}" value={{q.raspunsuri[0].raspuns3}}>
             <label>{{ q.raspunsuri[0].raspuns3 }}</label>
             <br>
-            <input type="radio" name="{{ q.intrebare }}" value={{ q.raspunsuri[0].raspuns4 }}>
+            <input type="radio" name="{{ q.intrebare }}" value={{q.raspunsuri[0].raspuns4}}>
             <label>{{ q.raspunsuri[0].raspuns4 }}</label>
-            <br>
-            <br>
+        </div>
+      </div>
+      <br>
+      <br>
     {%endfor%}
-    <input type="hidden" name="time_remaining" value={{ endTime }}>  
-      <button type="submit">Submit</button>
-      <br>
-      <br>
-    </form>
+    <input type="hidden" name="time_remaining" value={{endTime}}>
 
+    <div class = 'SubmitButton'>
+      <button type="submit"><strong>Submit</strong> </button>
+    </div>
+
+      <br>
+      <br>
+
+    </form>
 </div>
 
 
@@ -89,6 +100,105 @@ function updateTimer() {
 }
 
 </script>
+
+<style>
+
+p{
+  color: black;
+  float: right;
+  max-width: 300px;
+  min-height: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  position: fixed;
+  top: 70px;
+  right: 50px;
+
+  width: 100px;
+  height: 50px;
+  padding: 10px;
+
+  border: 1px solid rgba(255, 255, 255, .25);
+  border-radius: 20px;
+  background-color: rgba(255, 255, 255, 0.45);
+  box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.25);
+
+  backdrop-filter: blur(15px);
+}
+
+button{
+  font-family: 1em/1.618 Inter, sans-serif;
+        --c: #0cc0df;
+        pointer-events: all;
+        text-decoration: none !important;
+        box-shadow: 0 0 0 .1em inset var(--c); 
+        --_g: linear-gradient(var(--c) 0 0) no-repeat;
+        background: 
+        var(--_g) calc(var(--_p,0%) - 100%) 0%,
+        var(--_g) calc(200% - var(--_p,0%)) 0%,
+        var(--_g) calc(var(--_p,0%) - 100%) 100%,
+        var(--_g) calc(200% - var(--_p,0%)) 100%;
+        background-size: 50.5% calc(var(--_p,0%)/2 + .5%);
+        outline-offset: .1em;
+        transition: background-size .4s, background-position 0s .4s;
+        border: 1px solid rgba(255, 255, 255, .25);
+        border-radius: 20px;
+        border-width: thin;
+        background-color: rgba(255, 255, 255, 0.45);
+        box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.25);
+        width: 120px;
+        text-align: center;
+        border-color: #0cc0df;
+        justify-content: center;
+        display: flex;
+        align-items: center;
+}
+
+button:hover{
+        --_p: 100%;
+        transition: background-position .4s, background-size 0s;
+        border-color: #0cc0df;
+        cursor: pointer;
+        text-decoration: none !important;
+}
+
+button:active{
+        box-shadow: 0 0 9e9q inset #0009; 
+        background-color: var(--c);
+        color: #fff;
+        border-color: #0cc0df;
+        cursor: pointer;
+        text-decoration: none !important;
+}
+
+.fiecare_intreb{
+        margin: auto;
+        margin-top: 20px;
+        font-size: 20px;
+        box-sizing: inherit;
+        font: 1em/1.618 Inter, sans-serif;
+        margin: 10;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: fit-content;
+        width: fit-content;
+        padding: 60px;
+        border: 1px solid rgba(255, 255, 255, .25);
+        border-radius: 20px;
+        background-color: rgba(255, 255, 255, 0.45);
+        box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.25);
+        backdrop-filter: blur(15px);
+}
+
+</style>
 
 
 {% endblock%}
