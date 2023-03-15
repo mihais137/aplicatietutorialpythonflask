@@ -11,7 +11,9 @@
 
 <div class = "team_name">
 
-<b1>Logged in as: <strong>{{name}}</strong></b1>
+<b1>Logged in as: <strong>{{user.nume}}</strong></b1>
+<br>
+<b1>Punctajul vostru este: <strong>{{user.punctaj}}</strong> (cam slabani)</b1>
     
 </div>
 
@@ -53,7 +55,7 @@
 
     .main{
         margin: auto;
-        margin-top: 140px;
+        margin-top: 100px;
         font-size: 20px;
         box-sizing: inherit;
         font: 1em/1.618 Inter, sans-serif;
@@ -116,16 +118,6 @@
         border-color: #0cc0df;
         cursor: pointer;
         text-decoration: none !important;
-    }
-
-    body{
-        /* background-color: #ffde59; */
-        background-image: url('https://i.ibb.co/bJRh9HQ/background-for-repeat.png');
-        background-image: repeating-linear-gradient(
-        -45deg,
-    /* url('https://i.ibb.co/bJRh9HQ/background-for-repeat.png') */
-    url('https://i.ibb.co/bJRh9HQ/background-for-repeat.png') 20px 20px
-  );
     }
 
 </style>
