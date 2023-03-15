@@ -92,7 +92,7 @@ def shop_cart():
         if check == 'confirm':
             config_cart = Drona.query.filter_by(id = config_cart_code).first()
             frame_cart = Drona.query.filter_by(id = frame_cart_code).first()
-            if current_user.cart_config or current_user.cart_frame == '':
+            if current_user.cart_config== '' or current_user.cart_frame == '':
                  flash('Nu ai destule obiecte in cos', category='error')
                  return redirect(url_for('views.shop_cart'))
             elif config_cart.stoc== 0 or frame_cart.stoc== 0:
