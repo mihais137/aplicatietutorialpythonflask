@@ -7,15 +7,17 @@
 <div class="body">
     <div class="center">
         <h1>Login</h1>
-        <div class="instruction">Va rugam sa introduceti numele echipei si parola</div>
+        <div class="instruction">Va rugam sa introduceti numele echipei si parola.</div>
         <form method="POST">
             <div class="form-group">
-                <label for="numeEchipa">Nume Echipa</label>
-                <input type="text" class="form-control" id="numeEchipa" name="numeEchipa" placeholder="Introduceti numele echipei"/>
+                <input type="text" class="form-control" id="numeEchipa" name="numeEchipa" required/>
             </div>
+                <span></span>
+                <label for="numeEchipa">Nume Echipa</label>
             <div class="form-group">
+                <input type="password" class="form-control" id="parolaEchipa" required/>
+                <span></span>
                 <label for="parolaEchipa">Parola</label>
-                <input type="password" class="form-control" id="parolaEchipa" name="parolaEchipa" placeholder="Introduceti parola"/>
             </div>
             <br/>
             <button type="submit" class="btn btn-primary">Login</button>
