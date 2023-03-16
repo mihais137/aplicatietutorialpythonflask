@@ -118,3 +118,24 @@ def admin_sign_up():
         db.session.commit()
 
     return render_template('admin_sign_up.html', user = current_user)
+
+@admin.route('/admin_add_points', methods=['GET', 'POST'])
+@login_required
+def admin__add_points():
+
+    if current_user.level != 'admin':
+        return redirect(url_for('admin.admin_error'))
+
+
+    users = User.query.filter_by(level = 'echipa')
+    if request.method == "POST":
+        user_id = request.form.get('change_value')
+        punctajeAdaugate = request.form.get('punctajeAdaugate')
+        user = User.query.filter_by(id = user_id).first()
+        user.punctaj = user.punctaj + punctajeAdaugate
+        print('Punctaje adaugate: ' + punctajeAdaugate)
+        flash('Punctele au fost adaugate')
+        db.session.commit()
+
+
+    return render_template('admin_add_points.html', user = current_user, users = users)
