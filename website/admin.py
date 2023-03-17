@@ -130,10 +130,10 @@ def admin__add_points():
     users = User.query.filter_by(level = 'echipa')
     if request.method == "POST":
         user_id = request.form.get('change_value')
-        punctajeAdaugate = request.form.get('punctajeAdaugate')
+        punctajeAdaugat = request.form.get('punctajeAdaugate')
         user = User.query.filter_by(id = user_id).first()
-        user.punctaj = user.punctaj + punctajeAdaugate
-        print('Punctaje adaugate: ' + punctajeAdaugate)
+        user.punctaj = user.punctaj + punctajeAdaugat
+        print('Punctaje adaugate: ' + punctajeAdaugat)
         flash('Punctele au fost adaugate')
         db.session.commit()
 
