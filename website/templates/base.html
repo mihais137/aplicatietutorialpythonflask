@@ -21,6 +21,10 @@
 
     <body>
 
+      <div class = "footer">
+        <p>Footer</p>
+      </div>
+
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <button
             class="navbar-toggler" 
@@ -80,7 +84,7 @@
             </div>
         </nav>
 
-        <div class="container">
+        <div class="caca">
           {% block content %}
 
           {% endblock%}
@@ -109,12 +113,21 @@
 
     <style>
 
+.footer{
+  position: fixed;
+  color: white;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  color: black;
+}
+
 html {
-  --r: 56px; /* control the size */
-  --c1: #3FB8AF /*color 1*/ 99%,#0000 101%;
-  --c2: #FF9E9D /*color 2*/ 99%,#0000 101%;
+  --r: 56px;
+  --c1: #3FB8AF  99%,#0000 101%;
+  --c2: #FF9E9D 99%,#0000 101%;
   
-  --s:calc(var(--r)*.866);  /* .866 = cos(30deg) */
+  --s:calc(var(--r)*.866);
   --g0:radial-gradient(var(--r),var(--c1));
   --g1:radial-gradient(var(--r),var(--c2));
   --f:radial-gradient(var(--r) at calc(100% + var(--s)) 50%,var(--c1));
@@ -135,16 +148,16 @@ html {
     var(--g0) 0 calc(-1*var(--r)),
     var(--g1) var(--s) calc(var(--r)/-2),
     var(--g0) var(--s) calc(var(--r)/ 2) 
-    #FF9E9D; /*color 2 again here */
+    #FF9E9D;
   background-size: calc(4*var(--s)) calc(6*var(--r));
 }
 
   body{
-  --r: 56px; /* control the size */
-  --c1: #3FB8AF /*color 1*/ 99%,#0000 101%;
-  --c2: #FF9E9D /*color 2*/ 99%,#0000 101%;
+  --r: 56px;
+  --c1: #3FB8AF 99%,#0000 101%;
+  --c2: #FF9E9D 99%,#0000 101%;
   
-  --s:calc(var(--r)*.866);  /* .866 = cos(30deg) */
+  --s:calc(var(--r)*.866); 
   --g0:radial-gradient(var(--r),var(--c1));
   --g1:radial-gradient(var(--r),var(--c2));
   --f:radial-gradient(var(--r) at calc(100% + var(--s)) 50%,var(--c1));
@@ -165,8 +178,11 @@ html {
     var(--g0) 0 calc(-1*var(--r)),
     var(--g1) var(--s) calc(var(--r)/-2),
     var(--g0) var(--s) calc(var(--r)/ 2) 
-    #FF9E9D; /*color 2 again here */
+    #FF9E9D;
   background-size: calc(4*var(--s)) calc(6*var(--r));
+  /* background-image: url('https://i.ibb.co/vqLpb5P/live-daniel-react.png');
+  background-repeat: no-repeat;
+  background-size: cover; */
 }
 
     </style>

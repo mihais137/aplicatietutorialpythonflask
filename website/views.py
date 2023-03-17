@@ -180,6 +180,7 @@ def results():
 
     if 'questions' in session and 'points' in session:
         questions = session['questions']
+        print(questions)
         points = session['points']
     else:
         return redirect(url_for('views.home')) 
