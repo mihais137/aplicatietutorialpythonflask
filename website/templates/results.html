@@ -2,7 +2,7 @@
 {% block title %}Results{% endblock %}
 
 {% block content %}
-
+<div class = "results_info">
 <h1>Rezultatu aici</h1>
 
 <h1>Bv ai terminat quizul de <strong>{{user.last_test}}</strong> si ai obtinut <strong>{{points}}</strong> puncte </h1>
@@ -11,5 +11,62 @@
 {% for q in questions:%}
 <h1>{{q.intrebare}} : {{q.raspuns_corect}}</h1>
 {%endfor%}
+</div>
+
+<style>
+    .results_info {
+    border-radius: 10px;
+    filter: drop-shadow(0 5px 10px 0 #ffffff);
+    width: 1300px;
+    height: 500px;
+    background-color: transparent;
+    padding: 20px;
+    position: relative;
+    z-index: 0;
+    overflow: hidden;
+    transition: 0.6s ease-in;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+    margin-left: 50px;
+    backdrop-filter: blur(5px);
+    border: 3px solid rgba(255, 255, 255, .25);
+    border-radius: 20px;
+    border-color:#0cc0df;
+}
+
+.results_info::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: -15px;
+  right: -15px;
+  background: #0cc0df;
+  height: 520px;
+  width: 25px;
+  border-radius: 32px;
+  transform: scale(1);
+  transform-origin: 50% 50%;
+  transition: transform 0.25s ease-out;
+}
+
+.results_info:hover::before{
+    transition-delay:0.2s ;
+
+  transform: scale(120);
+}
+
+.results_info:hover{
+    color: #ffffff;
+
+}
+
+.results_info p{
+    padding: 10px 0;
+}
+
+
+
+</style>
 
 {% endblock%}
