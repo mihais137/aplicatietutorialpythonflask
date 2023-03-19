@@ -134,7 +134,7 @@ def quiz():
 
     if current_user.last_test == test.tip:
         flash('Ai dat deja acest test', category="error")
-        return redirect(url_for('views.home')) #trebuie return redirect catre o pagina de eroare
+        return redirect(url_for('views.results'))
     
     durata = test.durata
 
@@ -201,6 +201,7 @@ def results():
 
     if 'questions' in session and 'points' in session:
         questions = session['questions']
+        print(questions)
         points = session['points']
     else:
         return redirect(url_for('views.home')) 
