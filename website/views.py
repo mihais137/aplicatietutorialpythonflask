@@ -5,7 +5,7 @@ from website.models import Drona, Test, Intrebari, Raspunsuri
 from website.models import User
 from sqlalchemy import desc
 import random
-import datetime
+
 
 views = Blueprint('views', __name__)
 
@@ -47,9 +47,11 @@ def shop():
         code = request.form.get('button')
         obj = Drona.query.filter_by(id = code).first()
         if obj.stoc == 0:
-            flash('Acest obiect nu se mai afla pe stoc', category='error')         
+            session['error'] = "Acest obiect nu se mai afla pe stoc"
+            return redirect(url_for('views.error'))          
         elif cine_alege()!=current_user.id:
-            flash('Nu e randul tau', category='error')
+            session['error'] = 'Nu e randul tau'
+            return redirect(url_for('views.error')) 
         elif obj.nume.startswith('CONFIG'):
             current_user.add_cart_config(code)
             db.session.commit()        
@@ -93,11 +95,11 @@ def shop_cart():
             config_cart = Drona.query.filter_by(id = config_cart_code).first()
             frame_cart = Drona.query.filter_by(id = frame_cart_code).first()
             if current_user.cart_config== '' or current_user.cart_frame == '':
-                 flash('Nu ai destule obiecte in cos', category='error')
-                 return redirect(url_for('views.shop_cart'))
+                 session['error'] = "Nu ai destule obiecte in cos"
+                 return redirect(url_for('views.error')) 
             elif config_cart.stoc== 0 or frame_cart.stoc== 0:
-                flash('Produsul din cos nu mai este pe stoc', category='error')
-                return redirect(url_for('views.shop_cart'))         
+                session['error'] = 'Produsul din cos nu mai este pe stoc'
+                return redirect(url_for('views.error'))        
             elif current_user.cart_config!='' and current_user.cart_frame != '':
                 current_user.add_frame(current_user.cart_frame)
                 current_user.add_config(current_user.cart_config)
@@ -133,8 +135,8 @@ def quiz():
        return redirect(url_for('views.check_quiz'))
 
     if current_user.last_test == test.tip:
-        flash('Ai dat deja acest test', category="error")
-        return redirect(url_for('views.results'))
+        session['error'] = 'Ai dat deja acest test'
+        return redirect(url_for('views.error')) 
     
     durata = test.durata
 
@@ -181,7 +183,6 @@ def quiz():
 
         current_user.change_points(current_user.punctaj + points)
         db.session.commit()
-        flash('Test finalizat', category="succes")
         return redirect(url_for('views.results'))
                          
     return render_template('quiz.html', user = current_user, questions = questions, durata = durata)
@@ -208,6 +209,17 @@ def results():
 
 
     return render_template('results.html', user = current_user, questions = questions, points = points)
+
+
+@views.route('/error', methods = ['GET', 'POST'])
+def error():
+
+    if 'error' in session:
+        error = session['error']
+    else:
+        error = "UUPS"
+
+    return render_template('error.html', user = current_user, error = error)
 
 
 def cine_alege():

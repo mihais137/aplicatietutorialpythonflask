@@ -118,3 +118,16 @@ def admin_sign_up():
         db.session.commit()
 
     return render_template('admin_sign_up.html', user = current_user)
+
+
+@admin.route('/admin_reset', methods=['GET', 'POST'])
+@login_required
+def admin_reset():
+
+    if current_user.level != 'admin':
+        return redirect(url_for('admin.admin_error'))
+    
+    test = Test.query.filter_by(status = 'activ').first()
+    durata = test.durata
+
+    return render_template('admin_reset.html', user = current_user, durata = durata)
