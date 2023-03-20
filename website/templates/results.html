@@ -5,7 +5,9 @@
 
 <h1>Rezultatu aici</h1>
 
-<h1> {{points}} </h1>
+<h1>Bv ai terminat quizul de <strong>{{user.last_test}}</strong> si ai obtinut <strong>{{points}} </strong> puncte </h1>
+<h1>Raspunsurile corecte erau:</h1>
+<br>
 {% for q in questions:%}
 <h1>{{q.intrebare}} : {{q.raspuns_corect}}</h1>
 {%endfor%}
