@@ -1,13 +1,116 @@
 {% extends "base.html" %}
-{% block title %}Results{% endblock %}
+{% block title %}DroWo - Team Page{% endblock %}
 
 {% block content %}
 
-<h1> echipa logata: {{user.username}} </h1>
-<h1> configuratia aleasa: {{config.nume}} </h1>
+<div class="container">
+    <div class="body">
+        <div class="wrapper">
+            <div class="left">
+                <img src="https://euroavia-bucuresti.ro/wp-content/uploads/2023/03/IMG_4647-1-scaled.jpg" alt="team" width="150" height="120">
+                <h4>Hello, Echipa {{user.username}}!</h4>
+            </div>
+            <div class="right">
+                <div class="info">
+                    <h3>Punctaj</h3>
+                    <div class="points">
+                        <h2>{{user.punctaj}}</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-{% for c in clasament%}
+
+
+<style>
+
+    @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;500&family=Pacifico&family=Poppins:wght@700&display=swap');
+
+    .container{
+        margin-left: 0;
+        padding-left: 0;
+    }    
+
+    .body{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Open Sans', sans-serif;
+        height: 100vh;
+        width: 169.2%;
+        overflow-x: hidden;
+        background: linear-gradient(120deg, #194a46, #985f5e);
+        background-size: cover;
+        background-position: center;
+    }
+    .wrapper{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 600px;
+        min-height: 250px;
+        display: flex;
+        box-shadow: 0 20px 0 rgba(69, 90, 100, 0.08);
+        border-radius: 25px;
+    }
+
+    .wrapper .left{
+        width: 45%;
+        background: linear-gradient(210deg, #985f5e, #194a46);
+        padding: 30px 25px;
+        border-top-left-radius: 25px;
+        border-bottom-left-radius: 25px;
+        text-align: center;
+        color: white;
+    }
+
+    .wrapper .left img{
+        margin-bottom: 10px;
+        border-radius: 5px;
+    }
+
+    .wrapper .left h4{
+        padding-top: 25px;
+        margin-bottom: 10px;
+        font-size: 30px;
+    }
+
+    .wrapper .right{
+        width: 55%;
+        background: white;
+        border-top-right-radius: 25px;
+        border-bottom-right-radius: 25px;
+        padding: 30px 25px;
+    }
+
+    .wrapper .right .info{
+        margin-top: 12%;
+        padding-top: 10%;
+        margin-bottom: 12%;
+        padding-bottom: 10%;
+    }
+
+    .wrapper .right .info h3{
+        margin-bottom: 5px;
+        padding-bottom: 5px;
+        border-bottom: 1px solid #e0e0e0;
+        text-align: center;
+        font-weight: bold;
+    }
+
+    .wrapper .right .info .points h2{
+        text-align: center;
+        padding-top: 15px;
+    }
+
+</style>
+<!-- <h1> configuratia aleasa: {{config.nume}} </h1> -->
+
+<!-- {% for c in clasament%}
     {{c.username}} - {{c.punctaj}} <br>
-{%endfor%}
+{%endfor%} -->
 
 {% endblock%}
