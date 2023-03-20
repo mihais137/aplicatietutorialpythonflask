@@ -16,7 +16,7 @@ class User(db.Model, UserMixin):
     last_test = db.Column(db.String)
  #   clasament=db.relationship('Clasament')
 
-    def __init__(self, username, password, punctaj = 0, nume = 'Echipa', cart_config= '',cart_frame='', config = '',frame='', color = '6600ff',  level = 'team', last_test = ''):
+    def __init__(self, username, password, punctaj = 0, nume = 'Echipa', cart_config= '',cart_frame='', config = 'no',frame='no', color = '6600ff',  level = 'team', last_test = ''):
         self.username = username
         self.parola = password
         self.punctaj = punctaj
