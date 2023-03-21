@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import current_user, login_required
+import pandas as pd
 from .models import User, Test, Drona
 from . import db
 admin = Blueprint('admin', __name__)
@@ -131,3 +132,18 @@ def admin_reset():
     durata = test.durata
 
     return render_template('admin_reset.html', user = current_user, durata = durata)
+
+@admin.route('/admin_add_tests', methods=['GET', 'POST'])
+@login_required
+def admin_add_tests():
+
+    if current_user.level != 'admin':
+        return redirect(url_for('admin.admin_error'))
+    
+    if request.method == "POST":
+        file = request.form.get('filename')
+        data = pd.read_excel(file)
+
+        
+
+    return render_template('admin_add_tests.html', user = current_user)
