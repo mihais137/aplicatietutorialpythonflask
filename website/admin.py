@@ -150,6 +150,62 @@ def admin_add_tests():
 
     return render_template('admin_add_tests.html', user = current_user)
 
+@admin.route('/admin_delete_table', methods=['GET', 'POST'])
+@login_required
+def admin_delete_table():
+
+    if current_user.level != 'admin':
+        return redirect(url_for('admin.admin_error'))
+    
+    tables = {"test": Test, "user" : User, "intrebari": Intrebari, "raspunsuri": Raspunsuri, "drona" : Drona}
+    
+    if request.method == 'POST':
+        table_delete = request.form.get("table_delete")
+        tables[table_delete].query.delete()
+        db.session.commit()
+
+    return render_template('admin_delete_table.html', user = current_user)
+
+@admin.route('/admin_delete_drones', methods=['GET', 'POST'])
+@login_required
+def admin_delete_drones():
+
+    if current_user.level != 'admin':
+        return redirect(url_for('admin.admin_error'))
+    
+    drone = Drona.query.all()
+    
+    if request.method == 'POST':
+        id_drona = request.form.get("remove_value")
+        old_drona = Drona.query.filter_by(id = id_drona).first()
+        db.session.delete(old_drona)
+        db.session.commit()
+        return redirect(url_for("admin.admin_delete_drones"))
+
+    return render_template('admin_delete_drones.html', user = current_user, drone = drone)
+
+@admin.route('/admin_add_points', methods=['GET', 'POST'])
+@login_required
+def admin_add_points():
+
+    if current_user.level != 'admin':
+        return redirect(url_for('admin.admin_error'))
+    
+    echipe = User.query.filter_by(level = "team").all()
+    
+    if request.method == 'POST':
+        id_echipa = request.form.get("id_echipa")
+        puncte = request.form.get("puncte")
+
+        user = User.query.filter_by(id = id_echipa).first()
+        user.change_points(user.punctaj + int(puncte))
+        db.session.commit()
+        return redirect(url_for("admin.admin_add_points"))
+
+
+    return render_template('admin_add_points.html', user = current_user, echipe = echipe)
+
+
 def add_tests(data):
 
     tests_obj = Test.query.all()
