@@ -7,7 +7,9 @@
             <div class="content">
                 <h1>DROWO 23 APP</h1>
                 <p>Bine ati venit la editia Drowo 2023!</p>
+                
                 <div class>
+
                     {% if user.is_authenticated and user.level == "team" %}
                     <a href="/check_quiz">
                         <button type="button">
@@ -75,6 +77,13 @@
         
         button:hover{
             border: none;
+        }    
+
+        .butoane{
+            margin: auto;
+            width: 50%;
+            padding: 10px;
+            
         }
 
         section{
