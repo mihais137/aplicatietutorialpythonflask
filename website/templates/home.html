@@ -6,8 +6,8 @@
         <div class="body">
             <div class="content">
                 <h1>DROWO 23 APP</h1>
-                <p>Bine ati venit la editia Drowo 2023!</p></div>
-                <div class>
+                <p>Bine ati venit la editia Drowo 2023!</p>
+                <div class = 'butoane'>
                     {% if user.is_authenticated and user.level == "team" %}
                     <a href="/check_quiz">
                         <button type="button">
@@ -34,7 +34,7 @@
             margin-left: 0;
             padding-left: 0;
         }
-        .body{
+        /* .body{
             margin: 0;
             padding: 0;
             font-family: 'Open Sans', sans-serif;
@@ -44,7 +44,7 @@
             background: linear-gradient(120deg, #194a46, #985f5e);
             background-size: cover;
             background-position: center;
-        }
+        } */
         .content{
             width: 100%;
             position: absolute;
@@ -75,14 +75,21 @@
             background: transparent;
             color: white;
             cursor: pointer;
-            position: relative;
-            top: 33rem;
-            left: 43rem;
+            /* position: relative; */
+            /* top: 33rem;
+            left: 43rem; */
             overflow: hidden;
         }
         
         button:hover{
             border: none;
+        }    
+
+        .butoane{
+            margin: auto;
+            width: 50%;
+            padding: 10px;
+            
         }
     </style>
 {% endblock%}
