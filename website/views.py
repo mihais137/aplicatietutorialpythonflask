@@ -210,8 +210,11 @@ def results():
         db.session.commit()
 
     if 'questions' in session and 'points' in session:
-        questions = session['questions']
-        print(questions)
+        questions_id = session['questions']
+        questions = []
+        for q_id in questions_id:
+            new_question = Intrebari.query.filter_by(id = q_id).first()
+            questions.append(new_question)
         points = session['points']
     else:
         return redirect(url_for('views.home')) 
