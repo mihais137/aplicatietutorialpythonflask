@@ -124,8 +124,9 @@ def check_quiz():
     else:
         tip_test = "null"
 
-    if current_user.last_test == "A" + test.tip:
-        return redirect(url_for("views.quiz"))
+    if tip_test != "null":
+        if current_user.last_test == "A" + test.tip:
+            return redirect(url_for("views.quiz"))
 
     return render_template("check_quiz.html", tip_test = tip_test, user = current_user, durata = 15)
 
