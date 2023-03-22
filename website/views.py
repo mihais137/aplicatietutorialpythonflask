@@ -5,7 +5,8 @@ from website.models import Drona, Test, Intrebari, Raspunsuri
 from website.models import User
 from sqlalchemy import desc
 import random
-
+from datetime import datetime, time
+import time as t
 
 views = Blueprint('views', __name__)
 
@@ -13,9 +14,9 @@ views = Blueprint('views', __name__)
 @login_required
 def home():
 
+    print(current_user.last_test)
 
     return render_template('home.html', user = current_user)
-
 
 @views.route('team', methods = ['GET', 'POST'])
 @login_required
@@ -123,7 +124,10 @@ def check_quiz():
     else:
         tip_test = "null"
 
-    return render_template("check_quiz.html", tip_test = tip_test, user = current_user)
+    if current_user.last_test == "A" + test.tip:
+        return redirect(url_for("views.quiz"))
+
+    return render_template("check_quiz.html", tip_test = tip_test, user = current_user, durata = 15)
 
 
 @views.route('/quiz', methods=['GET', 'POST'])
@@ -136,9 +140,13 @@ def quiz():
 
     if current_user.last_test == test.tip:
         session['error'] = 'Ai dat deja acest test'
-        return redirect(url_for('views.error')) 
+        return redirect(url_for('views.error'))
+    else:
+        current_user.change_last_test("A" + test.tip)
+        db.session.commit()
+
     
-    durata = test.durata
+    durata = test.durata 
 
     if 'questions' not in session:
         questions = random.sample(test.intrebari, k=5)
