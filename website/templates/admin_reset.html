@@ -16,7 +16,7 @@
       <br>
       <br>
 
-    {%for q in questions:%}
+    <!-- {%for q in questions:%}
     <div class = 'fiecare_intreb'>
       <div class = 'intrebare'>
         {{q.intrebare}}
@@ -61,63 +61,63 @@
       <br>
 
     </form>
-</div>
+</div> -->
 
-<!-- <button id="reset-button">Reset Timer</button> -->
+<button id="reset-button">Reset Timer</button>
 
 <script>
-      var startTime = localStorage.getItem('startTime') || new Date().getTime();
+var startTime = localStorage.getItem('startTime') || new Date().getTime();
 
-      // Parse the start time to a number
-      startTime = parseFloat(startTime);
+// Parse the start time to a number
+startTime = parseFloat(startTime);
 
-      // Update the localStorage with the current start time
-      localStorage.setItem('startTime', startTime);
+// Update the localStorage with the current start time
+localStorage.setItem('startTime', startTime);
 
-      // Set the duration of the quiz in minutes
-      var duration = {{ durata }};
+// Set the duration of the quiz in minutes
+var duration = {{ durata }};
 
-      // Calculate the end time of the quiz
-      var endTime = new Date(startTime + duration * 60 * 1000);
+// Calculate the end time of the quiz
+var endTime = new Date(startTime + duration * 60 * 1000);
 
-      // Update the timer every second
-      setInterval(updateTimer, 1000);
+// Update the timer every second
+setInterval(updateTimer, 1000);
 
-      // Add event listener to reset button
-      document.getElementById("reset-button").addEventListener("click", function() {
-        // Set start time to current time
-        startTime = new Date().getTime();
-        
-        // Update localStorage with new start time
-        localStorage.setItem('startTime', startTime);
-        
-        // Recalculate end time
-        endTime = new Date(startTime + duration * 60 * 1000);
-        
-        // Update timer display
-        updateTimer();
-      });
+// Add event listener to reset button
+document.getElementById("reset-button").addEventListener("click", function() {
+  // Set start time to current time
+  startTime = new Date().getTime();
+  
+  // Update localStorage with new start time
+  localStorage.setItem('startTime', startTime);
+  
+  // Recalculate end time
+  endTime = new Date(startTime + duration * 60 * 1000);
+  
+  // Update timer display
+  updateTimer();
+});
 
-      function updateTimer() {
-        // Calculate the remaining time
-        var remainingTime = Math.max(0, endTime - new Date());
+function updateTimer() {
+  // Calculate the remaining time
+  var remainingTime = Math.max(0, endTime - new Date());
 
-        // Calculate minutes and seconds
-        var minutes = Math.floor(remainingTime / 1000 / 60);
-        var seconds = Math.floor(remainingTime / 1000) % 60;
+  // Calculate minutes and seconds
+  var minutes = Math.floor(remainingTime / 1000 / 60);
+  var seconds = Math.floor(remainingTime / 1000) % 60;
 
-        // Update the timer display
-        document.getElementById("minutes").textContent = String(minutes).padStart(2, '0');
-        document.getElementById("seconds").textContent = String(seconds).padStart(2, '0');
-        var remainingtime = Math.max(Math.ceil((endTime - Date.now()) / 1000), 0);
-        document.getElementById('remaining_time').value = parseInt(remainingtime);
+  // Update the timer display
+  document.getElementById("minutes").textContent = String(minutes).padStart(2, '0');
+  document.getElementById("seconds").textContent = String(seconds).padStart(2, '0');
+  var remainingtime = Math.max(Math.ceil((endTime - Date.now()) / 1000), 0);
+  document.getElementById('remaining_time').value = parseInt(remainingtime);
 
-        // If the remaining time is 0, submit the quiz
-        if (remainingTime === 0) {
-          document.getElementById("quiz-form").submit();
-          href = '/results';
-        }
-      }
+  // If the remaining time is 0, submit the quiz
+  if (remainingTime === 0) {
+    document.getElementById("quiz-form").submit();
+    href = '/results';
+  }
+}
 
 </script>
 

@@ -1,13 +1,124 @@
 {% extends "base.html" %}
-{% block title %}Results{% endblock %}
+{% block title %}DroWo23 - Team Page{% endblock %}
 
 {% block content %}
 
-<h1> echipa logata: {{user.username}} </h1>
-<h1> configuratia aleasa: {{config.nume}} </h1>
+<div class="body">
+    <div class="card info">
+        <h1 id="punctaj">Punctaj</h1>
+        <div class="points">
+            <h2>{{user.punctaj}}</h2>
+        </div>
+        <h1 id="config">Config</h1>
+        <div class="config">
+            <h2>{{user.config}}</h2>
+        </div>
+        <h1 id="frame">Frame</h1>
+        <div class="frame">
+            <h2>{{user.frame}}</h2>
+        </div>
+    </div>
+    <div class="card team">
+        <img src="https://euroavia-bucuresti.ro/wp-content/uploads/2023/03/IMG_4647-1-scaled.jpg" alt="team" width="400" height="250">
+        <h4>Buna, Echipa {{user.username}}!</h4>
+    </div>
+    <div class="card ranking">
+        <h1>Clasament</h1>
+        <div class="clasament">
+        {% for c in clasament%}
+            {{c.username}} - {{c.punctaj}} <br>
+        {%endfor%}
+        </div>
+    </div>
+</div>
 
-{% for c in clasament%}
-    {{c.username}} - {{c.punctaj}} <br>
-{%endfor%}
+<style>
+
+    .body{
+        margin: auto;
+        margin-top: 9%;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow-y: hidden;
+    }    
+
+    .card {
+       width: 350px;
+       height: 500px;
+       background-color: white;
+       border-radius: 20px;
+       box-shadow:  0 4px 8px rgba(0, 0, 0, 0.1);
+       margin: 20px 30px;
+    }
+
+    .team{
+        background-color: #001833;
+        color: white;
+        width: 500px;
+    }
+
+    .card.team h4{
+        margin-top: 20px;
+        text-align: center;
+        font-size: 35px;
+    }
+
+    .card.team img{
+        display: block;
+        margin-top: 50px;
+        margin-bottom: 40px;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+        border-radius: 20px;
+    }
+
+    .card.info{
+        padding: 15px 20px;
+    }
+
+    .card.info h1{
+        text-align: center;
+        margin-bottom: 10px; 
+        padding-bottom: 10px;
+        border-bottom: 2px solid #003366;
+    }
+
+    .card.info .points{
+        text-align: center;
+        margin-bottom: 45px;
+    }
+
+    .card.info .config{
+        text-align: center;
+        margin-bottom: 45px;
+    }
+
+    .card.info .frame{
+        text-align: center;
+        margin-bottom: 45px;
+    }
+
+    .card.ranking{
+        padding: 15px 20px;
+    }
+
+    .card.ranking h1{
+        text-align: center;
+        margin-bottom: 10px; 
+        padding-bottom: 10px;
+        border-bottom: 2px solid #003366;
+    }
+
+    .card.ranking .clasament{
+        padding-top: 10px;
+        text-align: center;
+        font-weight: bold;
+        font-size: 20px;
+        padding-bottom: 5px;
+    }
+</style>
 
 {% endblock%}

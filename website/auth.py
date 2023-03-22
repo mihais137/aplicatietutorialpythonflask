@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, flash, redirect, url_for
+from flask import Blueprint, render_template, request, redirect, url_for, session
 from flask_login import login_user, login_required, logout_user, current_user
 from .models import User
 
@@ -17,13 +17,14 @@ def login():
         user = User.query.filter_by(username = numeEchipa).first()
         if user:
             if user.parola == parola:
-                flash('Bine ai venit in aplicatia DroWo23', category='success')
                 login_user(user, remember=True)
                 return redirect(url_for('views.home'))
             else:
-                flash('Parola incorecta.', category='error')
+                session['error'] = "Parola incorecta"
+                return redirect(url_for('views.error'))
         else:
-            flash('Aceasta echipa nu exista in baza de date', category='error')
+            session['error'] = "Aceasta echipa nu exista in baza de date"
+            return redirect(url_for('views.error'))
 
 
     return render_template("login.html", user=current_user)

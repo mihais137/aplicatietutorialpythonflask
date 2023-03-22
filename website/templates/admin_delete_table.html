@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Login - DroWo 23{% endblock %}
+
+{% block content %}
+
+
+<h1> alege tabelul pe care vrei sa l stergi </h1>
+
+<form method="post">
+    <label for="tables">Choose a car:</label>
+    <select id="tables" name="table_delete">
+      <option value="user">User</option>
+      <option value="test">Test</option>
+      <option value="intrebari">Intrebari</option>
+      <option value="raspunsuri">Raspunsuri</option>
+      <option value="drona">Drona</option>
+    </select>
+    <button type="submit">Submit</button>
+  </form>
+{% endblock%}
