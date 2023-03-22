@@ -7,17 +7,37 @@
    </head>
    <body>
     <br></br>
-      <form action="/admin_add_teams">
-         <button type="submit" class="btn btn-primary">Add teams</button>
+      <form style="text-align: center;"  action="/admin_add_teams">
+         <button type="submit" class="btn btn-light">Add teams</button>
       </form>
       <br></br>
-      <form action="/admin_test">
-        <button type="submit" class="btn btn-primary">Test</button>
+      <form style="text-align: center;"  action="/admin_test">
+        <button type="submit" class="btn btn-light">Test</button>
      </form>
      <br></br>
-     <form action="/admin_shop">
-        <button type="submit" class="btn btn-primary">Shop</button>
+     <form style="text-align: center;"  action="/admin_shop">
+        <button type="submit" class="btn btn-light">Shop</button>
      </form>
+     <br></br>
+     <form style="text-align: center;"  action="/admin_reset">
+        <button type="submit" class="btn btn-light">Reset Time</button>
+     </form>
+     <br></br>
+     <form style="text-align: center;"  action="/admin_add_tests">
+       <button type="submit" class="btn btn-light">Add Tests</button>
+    </form>
+    <br></br>
+    <form style="text-align: center;"  action="/admin_delete_table">
+       <button type="submit" class="btn btn-light">Delete Table</button>
+    </form>
+     <br></br>
+    <form style="text-align: center;" action="/admin_delete_drones">
+       <button type="submit" class="btn btn-light">Delete Drones</button>
+    </form>
+     <br></br>
+    <form style="text-align: center;" action="/admin_add_points">
+       <button type="submit" class="btn btn-light">Add Points</button>
+    </form>
      <br></br>
      <h1>
       {% with messages = get_flashed_messages() %}
