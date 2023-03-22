@@ -32,9 +32,11 @@ Logged in as: <strong>{{user.nume}}</strong></b1>
 </div>
 
 <br>
-<button id = "start_quiz">
-<a class = "btn-1" href="/quiz" id = "start_quiz">
-    <strong>Start Quiz</strong> </a> </button>
+<button id = "start_quiz" href = "/quiz">
+<a class = "btn-1" href="/quiz">
+    Start Quiz
+</a> 
+</button>
     
 {% else: %}
 
@@ -114,6 +116,52 @@ Logged in as: <strong>{{user.nume}}</strong></b1>
 
 <style>
 
+button
+{
+    all:unset;
+    font-family: 1em/1.618 Inter, sans-serif;
+            --c: #083c7c;
+            color: black;
+            pointer-events: all;
+            text-decoration: none !important;
+            box-shadow: 0 0 0 .1em inset var(--c); 
+            --_g: linear-gradient(var(--c) 0 0) no-repeat;
+            background: 
+            var(--_g) calc(var(--_p,0%) - 100%) 0%,
+            var(--_g) calc(200% - var(--_p,0%)) 0%,
+            var(--_g) calc(var(--_p,0%) - 100%) 100%,
+            var(--_g) calc(200% - var(--_p,0%)) 100%;
+            background-size: 50.5% calc(var(--_p,0%)/2 + .5%);
+            outline-offset: .1em;
+            transition: background-size .4s, background-position 0s .4s;
+            border: 1px solid rgba(255, 255, 255, .25);
+            border-radius: 20px;
+            border-width: thin;
+            background-color: rgba(255, 255, 255, 0.45);
+            box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.25);
+            width: 120px;
+            text-align: center;
+            border-color: #083c7c;
+}
+
+button:hover{
+            --_p: 100%;
+            transition: background-position .4s, background-size 0s;
+            border-color: #083c7c;
+            cursor: pointer;
+            text-decoration: none !important;
+            color: black;
+        }
+    
+        button:active{
+            box-shadow: 0 0 9e9q inset #0009; 
+            background-color: var(--c);
+            color: #083c7c;
+            border-color: #083c7c;
+            cursor: pointer;
+            text-decoration: none !important;
+        }
+
     .team_name_info {
         font: 1em/1.618 Inter, sans-serif;
         font-size: 30px;
@@ -191,49 +239,6 @@ Logged in as: <strong>{{user.nume}}</strong></b1>
             backdrop-filter: blur(5px);
         }
     
-        .btn-1{
-            font-family: 1em/1.618 Inter, sans-serif;
-            --c: #0cc0df;
-            color: black;
-            pointer-events: all;
-            text-decoration: none !important;
-            box-shadow: 0 0 0 .1em inset var(--c); 
-            --_g: linear-gradient(var(--c) 0 0) no-repeat;
-            background: 
-            var(--_g) calc(var(--_p,0%) - 100%) 0%,
-            var(--_g) calc(200% - var(--_p,0%)) 0%,
-            var(--_g) calc(var(--_p,0%) - 100%) 100%,
-            var(--_g) calc(200% - var(--_p,0%)) 100%;
-            background-size: 50.5% calc(var(--_p,0%)/2 + .5%);
-            outline-offset: .1em;
-            transition: background-size .4s, background-position 0s .4s;
-            border: 1px solid rgba(255, 255, 255, .25);
-            border-radius: 20px;
-            border-width: thin;
-            background-color: rgba(255, 255, 255, 0.45);
-            box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.25);
-            width: 120px;
-            text-align: center;
-            border-color: black;
-        }
-    
-        .btn-1:hover{
-            --_p: 100%;
-            transition: background-position .4s, background-size 0s;
-            border-color: #0cc0df;
-            cursor: pointer;
-            text-decoration: none !important;
-            color: black;
-        }
-    
-        .btn-1:active{
-            box-shadow: 0 0 9e9q inset #0009; 
-            background-color: var(--c);
-            color: #fff;
-            border-color: #0cc0df;
-            cursor: pointer;
-            text-decoration: none !important;
-        }
     
     </style>
 
