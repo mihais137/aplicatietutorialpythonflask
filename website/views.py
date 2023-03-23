@@ -183,6 +183,7 @@ def quiz():
 
         points = 0
 
+        #test
         print(answer_q1)
         print(answer_q2)
         print(answer_q3)
