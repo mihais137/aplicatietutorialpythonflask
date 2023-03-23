@@ -150,7 +150,7 @@ def quiz():
     durata = test.durata 
 
     if 'questions' not in session:
-        questions = random.sample(test.intrebari, k=5)
+        questions = random.sample(test.intrebari, k=10)
         questions_id = []
         for q in questions:
             questions_id.append(q.id)
@@ -175,6 +175,11 @@ def quiz():
         answer_q3 = request.form.get(questions[2].intrebare)
         answer_q4 = request.form.get(questions[3].intrebare)
         answer_q5 = request.form.get(questions[4].intrebare)
+        answer_q6 = request.form.get(questions[5].intrebare)
+        answer_q7 = request.form.get(questions[6].intrebare)
+        answer_q8 = request.form.get(questions[7].intrebare)
+        answer_q9 = request.form.get(questions[8].intrebare)
+        answer_q10 = request.form.get(questions[9].intrebare)
 
         points = 0
 
@@ -183,18 +188,33 @@ def quiz():
         print(answer_q3)
         print(answer_q4)
         print(answer_q5)
+        print(answer_q6)
+        print(answer_q7)
+        print(answer_q8)
+        print(answer_q9)
+        print(answer_q10)
 
 
         if answer_q1 == questions[0].raspuns_corect:
-            points += 20
+            points += 10
         if answer_q2 == questions[1].raspuns_corect:          
-            points += 20
+            points += 10
         if answer_q3 == questions[2].raspuns_corect:       
-            points += 20
+            points += 10
         if answer_q4 == questions[3].raspuns_corect:
-             points += 20
+             points += 10
         if answer_q5 == questions[4].raspuns_corect:
-            points += 20
+            points += 10
+        if answer_q6 == questions[5].raspuns_corect:
+            points += 10
+        if answer_q7 == questions[6].raspuns_corect:          
+            points += 10
+        if answer_q8 == questions[7].raspuns_corect:       
+            points += 10
+        if answer_q9 == questions[8].raspuns_corect:
+             points += 10
+        if answer_q10 == questions[9].raspuns_corect:
+            points += 10
 
         # remaining_time = request.form.get('remaining_time')
         # remaining_time_points = remaining_time * 0.01
