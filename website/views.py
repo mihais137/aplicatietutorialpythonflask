@@ -159,7 +159,15 @@ def quiz():
     questions = []
     for q in session['questions']:
         questions.append(Intrebari.query.filter_by(id = q).first())
-    
+
+    # for i, q in enumerate(questions):
+    #     print(i, q.raspunsuri[0].raspuns1)
+    #     print(i, q.raspunsuri[0].raspuns2)
+    #     print(i, q.raspunsuri[0].raspuns3)
+    #     print(i, q.raspunsuri[0].raspuns4)
+    #     print(i, q.raspuns_corect)
+    #     print("**********************")
+
     if request.method == "POST":
         current_user.change_last_test = test.tip
         answer_q1 = request.form.get(questions[0].intrebare)
@@ -170,15 +178,21 @@ def quiz():
 
         points = 0
 
-        if answer_q1 == questions[0].raspuns_corect:
+        print(answer_q1)
+        print(answer_q2)
+        print(answer_q3)
+        print(answer_q4)
+        print(answer_q5)
 
+
+        if answer_q1 == questions[0].raspuns_corect:
             points += 20
-        if answer_q2 == questions[1].raspuns_corect:
+        if answer_q2 == questions[1].raspuns_corect:          
             points += 20
-        if answer_q3 == questions[2].raspuns_corect:
+        if answer_q3 == questions[2].raspuns_corect:       
             points += 20
         if answer_q4 == questions[3].raspuns_corect:
-            points += 20
+             points += 20
         if answer_q5 == questions[4].raspuns_corect:
             points += 20
 
@@ -194,7 +208,7 @@ def quiz():
         db.session.commit()
         return redirect(url_for('views.results'))
                          
-    return render_template('quiz.html', user = current_user, questions = questions, durata = durata)
+    return render_template('quiz.html', user = current_user, questions = questions, durata = durata, da = "Salut cf")
 
 
 @views.route('/results', methods = ['GET', 'POST'])
