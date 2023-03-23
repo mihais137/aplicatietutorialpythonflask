@@ -155,7 +155,7 @@ def quiz():
         for q in questions:
             questions_id.append(q.id)
         session['questions'] = questions_id
-
+    
     questions = []
     for q in session['questions']:
         questions.append(Intrebari.query.filter_by(id = q).first())
@@ -183,16 +183,16 @@ def quiz():
 
         points = 0
 
-        print(answer_q1)
-        print(answer_q2)
-        print(answer_q3)
-        print(answer_q4)
-        print(answer_q5)
-        print(answer_q6)
-        print(answer_q7)
-        print(answer_q8)
-        print(answer_q9)
-        print(answer_q10)
+        # print(answer_q1)
+        # print(answer_q2)
+        # print(answer_q3)
+        # print(answer_q4)
+        # print(answer_q5)
+        # print(answer_q6)
+        # print(answer_q7)
+        # print(answer_q8)
+        # print(answer_q9)
+        # print(answer_q10)
 
 
         if answer_q1 == questions[0].raspuns_corect:
